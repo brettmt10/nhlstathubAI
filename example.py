@@ -1,15 +1,27 @@
-from api_handler import NHLScheduleHandler
+from api_handler import NHLHandler
 
-# create a handler object. by default, today's date is used.
-nhl = NHLScheduleHandler()
+# create a handler object. you can now call any function in the schedule or player data handlers
+nhl = NHLHandler()
 
-# or, specify your own date
-nhl = NHLScheduleHandler(date="2024-11-22")
+# call a schedule function
+print(nhl.schedule_handler.get_num_games())
 
-# this gets you the schedule of the date provided
-schedule: list[dict] = nhl.nhl_schedule()
+# get the schedule
+sched = nhl.schedule_handler.nhl_schedule()
 
-# want to verify you have the right day? print out the schedule in readable text
-nhl.beautify_schedule(schedule=schedule)
+# check out todays games
+nhl.schedule_handler.print_beautify_schedule(sched)
+
+# update the date of your existing object
+print("setting new date......")
+nhl.set_date("2024-11-20")
+sched = nhl.schedule_handler.nhl_schedule()
+nhl.schedule_handler.print_beautify_schedule(sched)
+
+# or create a new object with its own date
+print("separate object....")
+nhl_yesterday = NHLHandler(date="2024-11-23")
+sched = nhl_yesterday.schedule_handler.nhl_schedule()
+nhl_yesterday.schedule_handler.print_beautify_schedule(sched)
 
 

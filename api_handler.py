@@ -8,9 +8,9 @@ class NHLClientProvider():
         
 class NHLScheduleHandler():
     def __init__(self, client: NHLClient, date: str = datetime.today().strftime('%Y-%m-%d')):
-        self.client = client
+        self.client: NHLClient = client
         self.day: str = date
-        self.schedule_metadata: dict = self.client.schedule.get_schedule(date=date).get('games') # dict of schedule information
+        self.schedule_metadata: dict = self.client.schedule.get_schedule(date=self.day).get('games') # dict of schedule information
         self.num_games: int = len(self.schedule_metadata) # number of games for today's date
         self.schedule: list[dict] = []
         
@@ -93,7 +93,7 @@ class NHLScheduleHandler():
             for game in self.schedule_metadata:
                 game_i: dict = game
                 
-                game_data = self.parse_single_game_data(game_i)
+                game_data: dict = self.parse_single_game_data(game_i)
                 
                 schedule.append(game_data)
         except IndexError:
@@ -104,7 +104,7 @@ class NHLScheduleHandler():
     def set_schedule(self) -> None:
         """Sets schedule with finalized data for each game.
         """
-        self.schedule = self.build_schedule()
+        self.schedule: dict = self.build_schedule()
         
     def nhl_schedule(self) -> list[dict]:
         """Sets the schedule to the proper game data for use.
@@ -131,13 +131,16 @@ class NHLScheduleHandler():
             print('---')
 
 class NHLPlayerDataHandler(NHLScheduleHandler):
-    def __init__(self, client: NHLClient, date: str = None):
-        super().__init__(client)
-        if date:
-            self.day = date
+    def __init__(self, client: NHLClient, date: str = datetime.today().strftime('%Y-%m-%d')):
+        super().__init__(client=client, date=date)
             
 class NHLHandler(NHLClientProvider):
-    def __init__(self):
+    def __init__(self, date: str = datetime.today().strftime('%Y-%m-%d')):
         super().__init__()
-        self.schedule_handler = NHLScheduleHandler(client=self.client)
-        self.player_data_handler = NHLPlayerDataHandler(client=self.client)
+        self.schedule_handler: NHLScheduleHandler = NHLScheduleHandler(client=self.client, date=date)
+        self.player_data_handler: NHLPlayerDataHandler = NHLPlayerDataHandler(client=self.client, date=date)
+        
+    def set_date(self, date: str) -> None:
+        self.day = date
+        self.schedule_handler: NHLScheduleHandler = NHLScheduleHandler(client=self.client, date=date)
+        self.player_data_handler: NHLPlayerDataHandler = NHLPlayerDataHandler(client=self.client, date=date)
