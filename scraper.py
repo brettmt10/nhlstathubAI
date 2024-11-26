@@ -1,7 +1,7 @@
 from nhlpy import NHLClient
 from datetime import datetime
 
-class Scraper():
+class NHLScheduleHandler():
     def __init__(self, date: str = datetime.today().strftime('%Y-%m-%d')):
         self.client = NHLClient()
         self.day: str = date
