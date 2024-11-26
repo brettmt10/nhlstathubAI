@@ -4,7 +4,7 @@ import pytz
 
 class NHLScheduleHandler():
     def __init__(self, date: str = datetime.today().strftime('%Y-%m-%d')):
-        self.client = NHLClient()
+        self.client: NHLClient = NHLClient()
         self.day: str = date
         self.schedule_metadata: dict = self.client.schedule.get_schedule(date=date).get('games') # dict of schedule information
         self.num_games: int = len(self.schedule_metadata) # number of games for today's date
@@ -19,22 +19,22 @@ class NHLScheduleHandler():
     def __get_schedule(self) -> dict:
         return(self.schedule)
     
-    def localize_game_start(self, utc_time) -> tuple[str, str, str]:
+    def localize_game_start(self, utc_time: str) -> tuple[str, str, str]:
         """Localizes utc time for game start time.
         Returns:
             tuple[str, str, str]: (time in H:MM format, timezone abbreviation, full time string)
         """
-        utc_time = datetime.strptime(utc_time, '%Y-%m-%dT%H:%M:%SZ')
-        utc_time = pytz.utc.localize(utc_time)
+        utc_time: datetime = datetime.strptime(utc_time, '%Y-%m-%dT%H:%M:%SZ')
+        utc_time: datetime = pytz.utc.localize(utc_time)
 
         local_time = utc_time.astimezone()
 
-        time_start = local_time.strftime('%#I:%M')
+        time_start: str = local_time.strftime('%#I:%M')
        
-        local_timezone = local_time.strftime('%Z')
+        local_timezone: str = local_time.strftime('%Z')
         
-        full_time_str = time_start + " " + local_timezone
-        
+        full_time_str: str = time_start + " " + local_timezone
+
         return (time_start, local_timezone, full_time_str)
                 
     def parse_single_game_data(self, game_metadata: dict) -> dict:
