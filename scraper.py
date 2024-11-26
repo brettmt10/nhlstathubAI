@@ -19,12 +19,11 @@ class Scraper():
         return(self.schedule)
     
     def parse_single_game_data(self, game_data: dict) -> dict:
-        """
-            Gets required data (for GUI) for a game in the schedule metadata
-            Retrieves team names, logos, and match time information for a game.
+        """Gets required data (for GUI) for a game in the schedule metadata
+           Retrieves team names, logos, and match time information for a game.
 
-            Returns:
-                dict: Dictionary containing required data for a game
+        Returns:
+            dict: Dictionary containing required data for a game
         """
         
         name_away_team: str = game_data.get('awayTeam').get('placeName')['default'].lower()
@@ -41,8 +40,10 @@ class Scraper():
         return game_data
     
     def build_schedule(self) -> list[dict]:
-        """
-            Adds each game's parsed data as a dict and builds proper schedule data.
+        """Adds each game's parsed data as a dict and builds proper schedule data.
+
+        Returns:
+            list[dict]: List of dicts with finalized schedule of required game data.
         """
         
         schedule: list = []
@@ -65,7 +66,7 @@ class Scraper():
         self.schedule = self.build_schedule()
         
     def nhl_schedule(self) -> list[dict]:
-        """Returns the finalized daily schedule lsit of dictionaries of finalized match data for the GUI.
+        """Sets the schedule to the proper game data for use.
 
         Returns:
             list[dict]: List of dicts with finalized data for each game.
