@@ -28,15 +28,28 @@ class NHLScheduleHandler():
             dict: required data dictionary for a single game
         """
         
-        name_away_team: str = game_metadata.get('awayTeam').get('placeName')['default'].lower()
-        name_home_team: str = game_metadata.get('homeTeam').get('placeName')['default'].lower()
+        city_away_team: str = game_metadata.get('awayTeam').get('placeName')['default']
+        city_home_team: str = game_metadata.get('homeTeam').get('placeName')['default']
+        
+        name_away_team: str = game_metadata.get('awayTeam').get('commonName')['default']
+        name_home_team: str = game_metadata.get('homeTeam').get('commonName')['default']
+        
+        # bug in utah's name
+        if name_home_team == "Utah Hockey Club":
+            name_home_team = "Hockey Club"
+        elif name_away_team == "Utah Hockey Club":
+            print("rahhhhh")
+            name_away_team = "Hockey Club"
+        
         logo_away_team: str = game_metadata.get('awayTeam').get('logo')
         logo_home_team: str = game_metadata.get('homeTeam').get('logo')
-
+        
+        full_name_away_team: str = city_away_team + " " + name_away_team
+        full_name_home_team: str = city_home_team + " " + name_home_team
             
         game_data: dict = {
-                            "away_team": {"city": name_away_team, "logo": logo_away_team},
-                            "home_team": {"city": name_home_team, "logo": logo_home_team},
+                            "away_team": {"full_name": full_name_away_team, "city": city_away_team, "name": name_away_team,"logo": logo_away_team},
+                            "home_team": {"full_name": full_name_home_team, "city": city_home_team, "name": name_home_team, "logo": logo_home_team},
                           }
         
         return game_data
@@ -80,7 +93,10 @@ class NHLScheduleHandler():
         """Prints a readable version of the schedule passed through.
 
         Args:
-            schedule (list[dict]): daily nhl schedule. set with conventions of this class' schedule dictionary
+            schedule (list[dict]): daily nhl schedule. set with conventions of this class' schedule dictionary.
         """
         
-        pass
+        print('---')
+        for idx, game in enumerate(schedule):
+            print(f"Game {idx + 1}: {game.get("away_team")["full_name"]} vs {game.get("home_team")["full_name"]}. Starts at time EST.")
+            print('---')
