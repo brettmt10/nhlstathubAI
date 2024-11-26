@@ -69,7 +69,7 @@ class NHLScheduleHandler():
         game_start_time_data: tuple = self.localize_game_start(game_start_utc)
             
         game_data: dict = {
-                            "away_team": {"full_name": full_name_away_team, "city": city_away_team, "name": name_away_team,"logo": logo_away_team},
+                            "away_team": {"full_name": full_name_away_team, "city": city_away_team, "name": name_away_team, "logo": logo_away_team},
                             "home_team": {"full_name": full_name_home_team, "city": city_home_team, "name": name_home_team, "logo": logo_home_team},
                             "start_time": game_start_time_data[2]
                           }
