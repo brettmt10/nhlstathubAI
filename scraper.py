@@ -18,18 +18,20 @@ class NHLScheduleHandler():
     def __get_schedule(self) -> dict:
         return(self.schedule)
     
-    def parse_single_game_data(self, game_data: dict) -> dict:
-        """Gets required data (for GUI) for a game in the schedule metadata
-           Retrieves team names, logos, and match time information for a game.
+    def parse_single_game_data(self, game_metadata: dict) -> dict:
+        """Parses the dictionary of a single game and grabs required data for GUI.
+
+        Args:
+            game_data (dict): metadata of a single game
 
         Returns:
-            dict: Dictionary containing required data for a game
+            dict: required data dictionary for a single game
         """
         
-        name_away_team: str = game_data.get('awayTeam').get('placeName')['default'].lower()
-        name_home_team: str = game_data.get('homeTeam').get('placeName')['default'].lower()
-        logo_away_team: str = game_data.get('awayTeam').get('logo')
-        logo_home_team: str = game_data.get('homeTeam').get('logo')
+        name_away_team: str = game_metadata.get('awayTeam').get('placeName')['default'].lower()
+        name_home_team: str = game_metadata.get('homeTeam').get('placeName')['default'].lower()
+        logo_away_team: str = game_metadata.get('awayTeam').get('logo')
+        logo_home_team: str = game_metadata.get('homeTeam').get('logo')
 
             
         game_data: dict = {
@@ -73,3 +75,12 @@ class NHLScheduleHandler():
         """
         self.set_schedule()
         return(self.__get_schedule())
+    
+    def beautify_schedule(self, schedule: list[dict]) -> None:
+        """Prints a readable version of the schedule passed through.
+
+        Args:
+            schedule (list[dict]): daily nhl schedule. set with conventions of this class' schedule dictionary
+        """
+        
+        pass
