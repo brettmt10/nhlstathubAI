@@ -2,9 +2,13 @@ from nhlpy import NHLClient
 from datetime import datetime
 import pytz
 
-class NHLScheduleHandler():
-    def __init__(self, date: str = datetime.today().strftime('%Y-%m-%d')):
+class NHLClientProvider():
+    def __init__(self):
         self.client: NHLClient = NHLClient()
+        
+class NHLScheduleHandler():
+    def __init__(self, client: NHLClient, date: str = datetime.today().strftime('%Y-%m-%d')):
+        self.client = client
         self.day: str = date
         self.schedule_metadata: dict = self.client.schedule.get_schedule(date=date).get('games') # dict of schedule information
         self.num_games: int = len(self.schedule_metadata) # number of games for today's date
@@ -111,7 +115,7 @@ class NHLScheduleHandler():
         self.set_schedule()
         return(self.__get_schedule())
     
-    def beautify_schedule(self, schedule: list[dict]) -> None:
+    def print_beautify_schedule(self, schedule: list[dict]) -> None:
         """Prints a readable version of the schedule passed through.
 
         Args:
@@ -125,3 +129,15 @@ class NHLScheduleHandler():
             
             print(f"Game {idx + 1}: {away_team["full_name"]} vs {home_team["full_name"]}. Starts at {game["start_time"]}.")
             print('---')
+
+class NHLPlayerDataHandler(NHLScheduleHandler):
+    def __init__(self, client: NHLClient, date: str = None):
+        super().__init__(client)
+        if date:
+            self.day = date
+            
+class NHLHandler(NHLClientProvider):
+    def __init__(self):
+        super().__init__()
+        self.schedule_handler = NHLScheduleHandler(client=self.client)
+        self.player_data_handler = NHLPlayerDataHandler(client=self.client)
