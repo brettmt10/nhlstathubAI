@@ -24,4 +24,8 @@ nhl_yesterday = NHLHandler(date="2024-11-23")
 sched = nhl_yesterday.schedule_handler.nhl_schedule()
 nhl_yesterday.schedule_handler.print_beautify_schedule(sched)
 
+# get a teams player data
+player_data = nhl.player_data_handler.get_team_player_data_as_df("boston")
+
+
 

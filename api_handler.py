@@ -1,13 +1,21 @@
 from nhlpy import NHLClient
+from nhlpy.api.query.filters.franchise import FranchiseQuery
+from nhlpy.api.query.filters.season import SeasonQuery
+from nhlpy.api.query.builder import QueryBuilder, QueryContext
+
+import pandas as pd
+
+import team_info
 from datetime import datetime
 import pytz
+from typing import Optional
 
 class NHLClientProvider():
     def __init__(self):
         self.client: NHLClient = NHLClient()
         
 class NHLScheduleHandler():
-    def __init__(self, client: NHLClient, date: str = datetime.today().strftime('%Y-%m-%d')):
+    def __init__(self, client: NHLClient, date: Optional[str] = datetime.today().strftime('%Y-%m-%d')):
         self.client: NHLClient = client
         self.day: str = date
         self.schedule_metadata: dict = self.client.schedule.get_schedule(date=self.day).get('games') # dict of schedule information
@@ -131,11 +139,74 @@ class NHLScheduleHandler():
             print('---')
 
 class NHLPlayerDataHandler(NHLScheduleHandler):
-    def __init__(self, client: NHLClient, date: str = datetime.today().strftime('%Y-%m-%d')):
+    def __init__(self, client: NHLClient, date: Optional[str] = datetime.today().strftime('%Y-%m-%d')):
         super().__init__(client=client, date=date)
+        self.schedule = self.nhl_schedule()
+        
+    def get_team_player_data(self, team_city: str) -> dict:
+        """Get the required GUI player data for a team.
+
+        Args:
+            team_city (str): city name of a team
+
+        Returns:
+            dict: dictionary containing required data for each player
+        """
+        
+        team_player_data: list[dict] = []
+        
+        franchise_id: str = team_info.teams.get(team_city).get('id')
+        
+        filters: list = [
+            SeasonQuery(season_start="20242025", season_end="20242025"),
+            FranchiseQuery(franchise_id=franchise_id)
+        ]
+
+        query_builder: QueryBuilder = QueryBuilder()
+        query_context: QueryContext = query_builder.build(filters=filters)
+
+        team_player_data_summary: dict = self.client.stats.skater_stats_with_query_context(
+            report_type='summary',
+            query_context=query_context,
+            aggregate=True            
+        ).get('data')
+        
+        team_player_data_misc: dict = self.client.stats.skater_stats_with_query_context(
+            report_type='realtime',
+            query_context=query_context,
+            aggregate=True
+        ).get('data')
+        
+        for pd_summary, pd_misc in zip(team_player_data_summary, team_player_data_misc):
+            player_stats: dict = {
+                "name": pd_summary["skaterFullName"],
+                "games_played": pd_summary["gamesPlayed"],
+                "points": pd_summary["points"],
+                "goals": pd_summary["goals"],
+                "assists": pd_summary["assists"],
+                "shots": pd_summary["shots"],
+                "blocked_shots": pd_misc["blockedShots"],
+                'toi': round(pd_summary["timeOnIcePerGame"]/60, 2)
+            }
             
+            team_player_data.append(player_stats)
+            
+        return team_player_data
+    
+    def get_team_player_data_as_df(self, team_city: str) -> pd.DataFrame:
+        """Get the team player data and convert it to a pandas dataframe
+
+        Args:
+            team_city (str): city name of a team
+
+        Returns:
+            pd.DataFrame: dataframe of a team's player data
+        """
+        team_player_data = self.get_team_player_data(team_city=team_city)
+        return pd.DataFrame(team_player_data)
+        
 class NHLHandler(NHLClientProvider):
-    def __init__(self, date: str = datetime.today().strftime('%Y-%m-%d')):
+    def __init__(self, date: Optional[str] = datetime.today().strftime('%Y-%m-%d')):
         super().__init__()
         self.schedule_handler: NHLScheduleHandler = NHLScheduleHandler(client=self.client, date=date)
         self.player_data_handler: NHLPlayerDataHandler = NHLPlayerDataHandler(client=self.client, date=date)
