@@ -21,6 +21,7 @@ class NHLScheduleHandler():
         self.schedule_metadata: dict = self.client.schedule.get_schedule(date=self.day).get('games') # dict of schedule information
         self.num_games: int = len(self.schedule_metadata) # number of games for today's date
         self.schedule: list[dict] = []
+        self.scheduled_teams: list[str] = []
         
     def get_schedule_metadata(self) -> dict:
         return(self.schedule_metadata)
@@ -30,6 +31,9 @@ class NHLScheduleHandler():
     
     def __get_schedule(self) -> dict:
         return(self.schedule)
+    
+    def __get_scheduled_teams(self) -> list[dict]:
+        return(self.scheduled_teams)
     
     def localize_game_start(self, utc_time: str) -> tuple[str, str, str]:
         """Localizes utc time for game start time.
@@ -109,19 +113,59 @@ class NHLScheduleHandler():
             
         return schedule
     
+    def build_scheduled_teams(self) -> list[str]:
+        """Add each team to the list of daily scheduled teams
+
+        Returns:
+            list[str]: List of daily scheduled teams to play
+        """
+        teams: list[str] = []
+            
+        for game in self.schedule:
+            teams.append(game.get("away_team")["name"])
+            teams.append(game.get("home_team")["name"])
+            
+        return teams
+        
+    def set_scheduled_teams(self) -> None:
+        """Sets scheduled teams.
+        """
+        self.scheduled_teams: list[str] = self.build_scheduled_teams()
+    
     def set_schedule(self) -> None:
         """Sets schedule with finalized data for each game.
         """
         self.schedule: dict = self.build_schedule()
         
     def nhl_schedule(self) -> list[dict]:
-        """Sets the schedule to the proper game data for use.
+        """User function that sets and gets the schedule to the proper game data for use.
 
         Returns:
             list[dict]: List of dicts with finalized data for each game.
         """
-        self.set_schedule()
+        # set schedule if schedule was not built manually
+        if not self.schedule:
+            self.set_schedule()
+            print('setting schedule cus this func, nhl_schedule, was called when no schedule was made')
+            
         return(self.__get_schedule())
+    
+    def nhl_scheduled_teams(self) -> list[str]:
+        """User function that sets and gets the daily scheduled teams
+        
+        Returns:
+            list[str]: List of daily scheduled teams"""
+            
+        # sets scheduled teams if not built manually
+        if not self.scheduled_teams:
+            self.set_scheduled_teams()
+            
+        # set schedule if schedule was not built manually
+        if not self.schedule:
+            self.set_schedule()
+            print('setting schedule cus this func, nhl_scheduled_teams, was called when no schedule was made')
+            
+        return(self.__get_scheduled_teams())
     
     def print_beautify_schedule(self, schedule: list[dict]) -> None:
         """Prints a readable version of the schedule passed through.
@@ -141,8 +185,7 @@ class NHLScheduleHandler():
 class NHLPlayerDataHandler(NHLScheduleHandler):
     def __init__(self, client: NHLClient, date: Optional[str] = datetime.today().strftime('%Y-%m-%d')):
         super().__init__(client=client, date=date)
-        self.schedule = self.nhl_schedule()
-        
+
     def get_team_player_data(self, team_city: str) -> dict:
         """Get the required GUI player data for a team.
 
@@ -208,10 +251,5 @@ class NHLPlayerDataHandler(NHLScheduleHandler):
 class NHLHandler(NHLClientProvider):
     def __init__(self, date: Optional[str] = datetime.today().strftime('%Y-%m-%d')):
         super().__init__()
-        self.schedule_handler: NHLScheduleHandler = NHLScheduleHandler(client=self.client, date=date)
-        self.player_data_handler: NHLPlayerDataHandler = NHLPlayerDataHandler(client=self.client, date=date)
-        
-    def set_date(self, date: str) -> None:
-        self.day = date
         self.schedule_handler: NHLScheduleHandler = NHLScheduleHandler(client=self.client, date=date)
         self.player_data_handler: NHLPlayerDataHandler = NHLPlayerDataHandler(client=self.client, date=date)
