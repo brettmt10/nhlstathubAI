@@ -87,7 +87,7 @@ teams = {
         'city': 'Florida',
         'name': 'Panthers',
         'full_name': 'Florida Panthers',
-        'id': '13',
+        'id': '33',
         'abbreviation': 'FLA'
     },
     'Kings': {
@@ -108,7 +108,7 @@ teams = {
         'city': 'Montreal',
         'name': 'Canadiens',
         'full_name': 'Montreal Canadiens',
-        'id': '8',
+        'id': '1',
         'abbreviation': 'MTL'
     },
     'Predators': {
@@ -122,14 +122,14 @@ teams = {
         'city': 'New Jersey',
         'name': 'Devils',
         'full_name': 'New Jersey Devils',
-        'id': '1',
+        'id': '23',
         'abbreviation': 'NJD'
     },
     'Islanders': {
         'city': 'New York',
         'name': 'Islanders',
         'full_name': 'New York Islanders',
-        'id': '2',
+        'id': '22',
         'abbreviation': 'NYI'
     },
     'Rangers': {
@@ -143,7 +143,7 @@ teams = {
         'city': 'Ottawa',
         'name': 'Senators',
         'full_name': 'Ottawa Senators',
-        'id': '9',
+        'id': '30',
         'abbreviation': 'OTT'
     },
     'Flyers': {
@@ -185,21 +185,21 @@ teams = {
         'city': 'Tampa Bay',
         'name': 'Lightning',
         'full_name': 'Tampa Bay Lightning',
-        'id': '14',
+        'id': '31',
         'abbreviation': 'TBL'
     },
     'Maple Leafs': {
         'city': 'Toronto',
         'name': 'Maple Leafs',
         'full_name': 'Toronto Maple Leafs',
-        'id': '10',
+        'id': '5',
         'abbreviation': 'TOR'
     },
     'Canucks': {
         'city': 'Vancouver',
         'name': 'Canucks',
         'full_name': 'Vancouver Canucks',
-        'id': '23',
+        'id': '20',
         'abbreviation': 'VAN'
     },
     'Golden Knights': {

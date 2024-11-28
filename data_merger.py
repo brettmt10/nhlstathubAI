@@ -33,15 +33,29 @@ class DataMerger():
         db: dict[pd.DataFrame] = {}
         
         for team in self.scheduled_teams:
-            print(team)
-            team_data = self.nhl.player_data_handler.get_team_player_data_as_df(team_name=team)
+            team_data: pd.DataFrame = self.nhl.player_data_handler.get_team_player_data_as_df(team_name=team)
             db[team_info.teams.get(team).get('abbreviation')] = team_data # needs to be team abbreviation to relate to salary data
             
         return db
     
     def merge_salaries_set_database(self) -> pd.DataFrame:
-        db = self.build_scheduled_teams_player_database()
-                                
+        db: dict[pd.DataFrame] = self.build_scheduled_teams_player_database()
+
+        for player in self.available_player_salaries.iterrows():
+            team_abbrev: str = player['TeamAbbrev']
+
+            player_salary: int = player['Salary']
+            
+            team_df: pd.DataFrame = db[team_abbrev]
+            player_name: str = player['Name']
+
+            # update the salary where the player name matches
+            try:
+                db[team_abbrev].loc[team_df['name'] == player_name, 'salary'] = player_salary
+            except:
+                print(f'{'player_name'} not draftable. skipping...')
+                pass   
+                 
     def set_scheduled_teams_player_database(self) -> None:
         self.scheduled_teams_player_database: dict[pd.DataFrame] = self.merge_salaries_set_database()
                 
