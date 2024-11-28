@@ -1,229 +1,229 @@
 teams = {
-    'anaheim': {
+    'Ducks': {
         'city': 'Anaheim',
         'name': 'Ducks',
         'full_name': 'Anaheim Ducks',
-        'id': '24',
+        'id': '32',
         'abbreviation': 'ANA'
     },
-    'arizona': {
+    'Coyotes': {
         'city': 'Arizona',
         'name': 'Coyotes',
         'full_name': 'Arizona Coyotes',
         'id': '53',
         'abbreviation': 'ARI'
     },
-    'boston': {
+    'Bruins': {
         'city': 'Boston',
         'name': 'Bruins',
         'full_name': 'Boston Bruins',
         'id': '6',
         'abbreviation': 'BOS'
     },
-    'buffalo': {
+    'Sabres': {
         'city': 'Buffalo',
         'name': 'Sabres',
         'full_name': 'Buffalo Sabres',
-        'id': '7',
+        'id': '19',
         'abbreviation': 'BUF'
     },
-    'calgary': {
+    'Flames': {
         'city': 'Calgary',
         'name': 'Flames',
         'full_name': 'Calgary Flames',
-        'id': '20',
+        'id': '21',
         'abbreviation': 'CGY'
     },
-    'carolina': {
+    'Hurricanes': {
         'city': 'Carolina',
         'name': 'Hurricanes',
         'full_name': 'Carolina Hurricanes',
-        'id': '12',
+        'id': '26',
         'abbreviation': 'CAR'
     },
-    'chicago': {
+    'Blackhawks': {
         'city': 'Chicago',
         'name': 'Blackhawks',
         'full_name': 'Chicago Blackhawks',
         'id': '16',
         'abbreviation': 'CHI'
     },
-    'colorado': {
+    'Avalanche': {
         'city': 'Colorado',
         'name': 'Avalanche',
         'full_name': 'Colorado Avalanche',
         'id': '21',
         'abbreviation': 'COL'
     },
-    'columbus': {
+    'Blue Jackets': {
         'city': 'Columbus',
         'name': 'Blue Jackets',
         'full_name': 'Columbus Blue Jackets',
         'id': '29',
         'abbreviation': 'CBJ'
     },
-    'dallas': {
+    'Stars': {
         'city': 'Dallas',
         'name': 'Stars',
         'full_name': 'Dallas Stars',
-        'id': '25',
+        'id': '15',
         'abbreviation': 'DAL'
     },
-    'detroit': {
+    'Red Wings': {
         'city': 'Detroit',
         'name': 'Red Wings',
         'full_name': 'Detroit Red Wings',
         'id': '17',
         'abbreviation': 'DET'
     },
-    'edmonton': {
+    'Oilers': {
         'city': 'Edmonton',
         'name': 'Oilers',
         'full_name': 'Edmonton Oilers',
-        'id': '22',
+        'id': '25',
         'abbreviation': 'EDM'
     },
-    'florida': {
+    'Panthers': {
         'city': 'Florida',
         'name': 'Panthers',
         'full_name': 'Florida Panthers',
         'id': '13',
         'abbreviation': 'FLA'
     },
-    'los_angeles': {
+    'Kings': {
         'city': 'Los Angeles',
         'name': 'Kings',
         'full_name': 'Los Angeles Kings',
         'id': '26',
         'abbreviation': 'LAK'
     },
-    'minnesota': {
+    'Wild': {
         'city': 'Minnesota',
         'name': 'Wild',
         'full_name': 'Minnesota Wild',
         'id': '30',
         'abbreviation': 'MIN'
     },
-    'montreal': {
+    'Canadiens': {
         'city': 'Montreal',
         'name': 'Canadiens',
         'full_name': 'Montreal Canadiens',
         'id': '8',
         'abbreviation': 'MTL'
     },
-    'nashville': {
+    'Predators': {
         'city': 'Nashville',
         'name': 'Predators',
         'full_name': 'Nashville Predators',
         'id': '18',
         'abbreviation': 'NSH'
     },
-    'new_jersey': {
+    'Devils': {
         'city': 'New Jersey',
         'name': 'Devils',
         'full_name': 'New Jersey Devils',
         'id': '1',
         'abbreviation': 'NJD'
     },
-    'new_york_islanders': {
+    'Islanders': {
         'city': 'New York',
         'name': 'Islanders',
         'full_name': 'New York Islanders',
         'id': '2',
         'abbreviation': 'NYI'
     },
-    'new_york_rangers': {
+    'Rangers': {
         'city': 'New York',
         'name': 'Rangers',
         'full_name': 'New York Rangers',
-        'id': '3',
+        'id': '10',
         'abbreviation': 'NYR'
     },
-    'ottawa': {
+    'Senators': {
         'city': 'Ottawa',
         'name': 'Senators',
         'full_name': 'Ottawa Senators',
         'id': '9',
         'abbreviation': 'OTT'
     },
-    'philadelphia': {
+    'Flyers': {
         'city': 'Philadelphia',
         'name': 'Flyers',
         'full_name': 'Philadelphia Flyers',
         'id': '4',
         'abbreviation': 'PHI'
     },
-    'pittsburgh': {
+    'Penguins': {
         'city': 'Pittsburgh',
         'name': 'Penguins',
         'full_name': 'Pittsburgh Penguins',
-        'id': '5',
+        'id': '17',
         'abbreviation': 'PIT'
     },
-    'san_jose': {
+    'Sharks': {
         'city': 'San Jose',
         'name': 'Sharks',
         'full_name': 'San Jose Sharks',
         'id': '28',
         'abbreviation': 'SJS'
     },
-    'seattle': {
+    'Kraken': {
         'city': 'Seattle',
         'name': 'Kraken',
         'full_name': 'Seattle Kraken',
-        'id': '55',
+        'id': '39',
         'abbreviation': 'SEA'
     },
-    'st_louis': {
+    'Blues': {
         'city': 'St. Louis',
         'name': 'Blues',
         'full_name': 'St. Louis Blues',
         'id': '19',
         'abbreviation': 'STL'
     },
-    'tampa_bay': {
+    'Lightning': {
         'city': 'Tampa Bay',
         'name': 'Lightning',
         'full_name': 'Tampa Bay Lightning',
         'id': '14',
         'abbreviation': 'TBL'
     },
-    'toronto': {
+    'Maple Leafs': {
         'city': 'Toronto',
         'name': 'Maple Leafs',
         'full_name': 'Toronto Maple Leafs',
         'id': '10',
         'abbreviation': 'TOR'
     },
-    'vancouver': {
+    'Canucks': {
         'city': 'Vancouver',
         'name': 'Canucks',
         'full_name': 'Vancouver Canucks',
         'id': '23',
         'abbreviation': 'VAN'
     },
-    'vegas': {
+    'Golden Knights': {
         'city': 'Vegas',
         'name': 'Golden Knights',
         'full_name': 'Vegas Golden Knights',
         'id': '54',
         'abbreviation': 'VGK'
     },
-    'washington': {
+    'Capitals': {
         'city': 'Washington',
         'name': 'Capitals',
         'full_name': 'Washington Capitals',
-        'id': '15',
+        'id': '24',
         'abbreviation': 'WSH'
     },
-    'winnipeg': {
+    'Jets': {
         'city': 'Winnipeg',
         'name': 'Jets',
         'full_name': 'Winnipeg Jets',
-        'id': '52',
+        'id': '35',
         'abbreviation': 'WPG'
     },
-    'utah': {
+    'Hockey Club': {
         'city': 'Utah',
         'name': 'Hockey Club',
         'full_name': 'Utah Hockey Club',

@@ -154,16 +154,17 @@ class NHLScheduleHandler():
         """User function that sets and gets the daily scheduled teams
         
         Returns:
-            list[str]: List of daily scheduled teams"""
-            
-        # sets scheduled teams if not built manually
-        if not self.scheduled_teams:
-            self.set_scheduled_teams()
+            list[str]: List of daily scheduled teams. Uses team names as values."""
             
         # set schedule if schedule was not built manually
         if not self.schedule:
             self.set_schedule()
             print('setting schedule cus this func, nhl_scheduled_teams, was called when no schedule was made')
+            
+        # sets scheduled teams if not built manually
+        if not self.scheduled_teams:
+            print("setting scheduled_teams cus this func, nhl_scheduled_teams, was called with no scheduled_teams made")
+            self.set_scheduled_teams()
             
         return(self.__get_scheduled_teams())
     
@@ -190,11 +191,11 @@ class NHLPlayerDataHandler(NHLScheduleHandler):
             print("No games today, NHLPlayerDataHandler still useable.")
             pass
 
-    def get_team_player_data(self, team_city: str) -> dict:
+    def get_team_player_data(self, team_name: str) -> dict:
         """Get the required GUI player data for a team.
 
         Args:
-            team_city (str): city name of a team
+            team_name (str): team name of a team
 
         Returns:
             dict: dictionary containing required data for each player
@@ -202,8 +203,8 @@ class NHLPlayerDataHandler(NHLScheduleHandler):
         
         team_player_data: list[dict] = []
         
-        franchise_id: str = team_info.teams.get(team_city).get('id')
-        team_abbrev: str = team_info.teams.get(team_city).get('abbreviation')
+        franchise_id: str = team_info.teams.get(team_name).get('id')
+        team_abbrev: str = team_info.teams.get(team_name).get('abbreviation')
         
         filters: list = [
             SeasonQuery(season_start="20242025", season_end="20242025"),
@@ -236,23 +237,24 @@ class NHLPlayerDataHandler(NHLScheduleHandler):
                 "assists": pd_summary["assists"],
                 "shots": pd_summary["shots"],
                 "blocked_shots": pd_misc["blockedShots"],
-                'toi': round(pd_summary["timeOnIcePerGame"]/60, 2)
+                'toi': round(pd_summary["timeOnIcePerGame"]/60, 2),
+                "salary": None # init to 0
             }
             
             team_player_data.append(player_stats)
 
         return team_player_data
     
-    def get_team_player_data_as_df(self, team_city: str) -> pd.DataFrame:
+    def get_team_player_data_as_df(self, team_name: str) -> pd.DataFrame:
         """Get the team player data and convert it to a pandas dataframe
 
         Args:
-            team_city (str): city name of a team
+            team_name (str): team name of a team
 
         Returns:
             pd.DataFrame: dataframe of a team's player data
         """
-        team_player_data = self.get_team_player_data(team_city=team_city)
+        team_player_data = self.get_team_player_data(team_name=team_name)
         return pd.DataFrame(team_player_data)
         
 class NHLHandler(NHLClientProvider):
