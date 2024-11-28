@@ -19,6 +19,10 @@ class NHLScheduleHandler():
         self.client: NHLClient = client
         self.day: str = date
         self.schedule_metadata: dict = self.client.schedule.get_schedule(date=self.day).get('games') # dict of schedule information
+        
+        if not self.schedule_metadata:
+            raise ValueError(f"No games on date {self.day}")
+        
         self.num_games: int = len(self.schedule_metadata) # number of games for today's date
         self.schedule: list[dict] = []
         self.scheduled_teams: list[str] = []
@@ -55,7 +59,6 @@ class NHLScheduleHandler():
                 
     def parse_single_game_data(self, game_metadata: dict) -> dict:
         """Parses the dictionary of a single game and grabs required data for GUI.
-
         Args:
             game_data (dict): metadata of a single game
 
@@ -99,17 +102,14 @@ class NHLScheduleHandler():
             list[dict]: List of dicts with finalized schedule of required game data.
         """
         
-        schedule: list = []
-        
-        try:      
-            for game in self.schedule_metadata:
-                game_i: dict = game
-                
-                game_data: dict = self.parse_single_game_data(game_i)
-                
-                schedule.append(game_data)
-        except IndexError:
-            raise IndexError(f'No games today: {self.day}')
+        schedule: list = []  
+            
+        for game in self.schedule_metadata:
+            game_i: dict = game
+            
+            game_data: dict = self.parse_single_game_data(game_i)
+            
+            schedule.append(game_data)
             
         return schedule
     
@@ -119,8 +119,8 @@ class NHLScheduleHandler():
         Returns:
             list[str]: List of daily scheduled teams to play
         """
-        teams: list[str] = []
-            
+        teams: list[str] = []  
+             
         for game in self.schedule:
             teams.append(game.get("away_team")["name"])
             teams.append(game.get("home_team")["name"])
@@ -223,6 +223,7 @@ class NHLPlayerDataHandler(NHLScheduleHandler):
         for pd_summary, pd_misc in zip(team_player_data_summary, team_player_data_misc):
             player_stats: dict = {
                 "name": pd_summary["skaterFullName"],
+                "position": pd_summary["positionCode"],
                 "games_played": pd_summary["gamesPlayed"],
                 "points": pd_summary["points"],
                 "goals": pd_summary["goals"],
@@ -233,7 +234,7 @@ class NHLPlayerDataHandler(NHLScheduleHandler):
             }
             
             team_player_data.append(player_stats)
-            
+
         return team_player_data
     
     def get_team_player_data_as_df(self, team_city: str) -> pd.DataFrame:
