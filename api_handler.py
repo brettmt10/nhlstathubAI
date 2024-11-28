@@ -184,7 +184,11 @@ class NHLScheduleHandler():
 
 class NHLPlayerDataHandler(NHLScheduleHandler):
     def __init__(self, client: NHLClient, date: Optional[str] = datetime.today().strftime('%Y-%m-%d')):
-        super().__init__(client=client, date=date)
+        try:
+            super().__init__(client=client, date=date)
+        except ValueError:
+            print("No games today, NHLPlayerDataHandler still useable.")
+            pass
 
     def get_team_player_data(self, team_city: str) -> dict:
         """Get the required GUI player data for a team.
@@ -199,6 +203,7 @@ class NHLPlayerDataHandler(NHLScheduleHandler):
         team_player_data: list[dict] = []
         
         franchise_id: str = team_info.teams.get(team_city).get('id')
+        team_abbrev: str = team_info.teams.get(team_city).get('abbreviation')
         
         filters: list = [
             SeasonQuery(season_start="20242025", season_end="20242025"),
@@ -223,6 +228,7 @@ class NHLPlayerDataHandler(NHLScheduleHandler):
         for pd_summary, pd_misc in zip(team_player_data_summary, team_player_data_misc):
             player_stats: dict = {
                 "name": pd_summary["skaterFullName"],
+                "team": team_abbrev,
                 "position": pd_summary["positionCode"],
                 "games_played": pd_summary["gamesPlayed"],
                 "points": pd_summary["points"],
@@ -252,5 +258,9 @@ class NHLPlayerDataHandler(NHLScheduleHandler):
 class NHLHandler(NHLClientProvider):
     def __init__(self, date: Optional[str] = datetime.today().strftime('%Y-%m-%d')):
         super().__init__()
-        self.schedule_handler: NHLScheduleHandler = NHLScheduleHandler(client=self.client, date=date)
+        try:
+            self.schedule_handler: NHLScheduleHandler = NHLScheduleHandler(client=self.client, date=date)
+        except ValueError:
+            pass
+        
         self.player_data_handler: NHLPlayerDataHandler = NHLPlayerDataHandler(client=self.client, date=date)
