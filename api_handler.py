@@ -138,7 +138,7 @@ class NHLScheduleHandler():
         self.schedule: dict = self.build_schedule()
         
     def nhl_schedule(self) -> list[dict]:
-        """User function that sets and gets the schedule to the proper game data for use.
+        """User function that sets and gets the finalized schedule data to the proper game data for use.
 
         Returns:
             list[dict]: List of dicts with finalized data for each game.
@@ -151,7 +151,7 @@ class NHLScheduleHandler():
         return(self.__get_schedule())
     
     def nhl_scheduled_teams(self) -> list[str]:
-        """User function that sets and gets the daily scheduled teams
+        """User function that sets and gets the finalized daily scheduled teams data
         
         Returns:
             list[str]: List of daily scheduled teams. Uses team names as values."""

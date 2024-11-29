@@ -33,3 +33,13 @@ class DraftKingsDataHandler:
         response: requests.Response = requests.get(url)
         df: pd.DataFrame = pd.read_csv(pd.io.common.StringIO(response.text), usecols=['Name', 'Salary', 'TeamAbbrev'])
         return df
+    
+    def available_player_salaries(self) -> pd.DataFrame:
+        """User function to get the finalized draftkings salary data
+
+        Returns:
+            pd.DataFrame: dataframe containing each available draftable player and their draftkings salary
+        """
+        
+        data = self.get_available_player_salaries()
+        return data
