@@ -6,7 +6,10 @@ from typing import Optional
 
 import team_info
 
-class DataMerger():
+class DataMerger:
+    """Merges draft kings data into nhl api player data and finalizes data sets for web app.
+        Used by NHLData to create wrapper functions.
+    """
     def __init__(self, date: Optional[str] = None):
         if date:
             self.nhl: NHLHandler = NHLHandler(date=date)

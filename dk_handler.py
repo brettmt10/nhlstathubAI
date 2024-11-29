@@ -2,6 +2,9 @@ import requests
 import pandas as pd
 
 class DraftKingsDataHandler:
+    """Handles fetching draft kings available and draftable players, gets data sets with player data
+        and draft kings draft prices (salaries).
+    """
     def get_contests(self) -> dict:
         """Gets the data attributes of the daily contests. Fetching this to get the daily
             draft group of available players.

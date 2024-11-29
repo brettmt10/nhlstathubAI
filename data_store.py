@@ -3,6 +3,12 @@ from typing import Optional
 import pandas as pd
 
 class NHLData(DataMerger):
+    """Public user scoped wrapper class to fetch essential data.
+
+    Args:
+        DataMerger: DataMerger class - merges and finalizes data.
+        Inherited to create wrapper functions around finalized data.
+    """
     def __init__(self, date: Optional[str] = None):
         super().__init__(date=date)
     

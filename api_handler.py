@@ -10,7 +10,10 @@ from datetime import datetime
 import pytz
 from typing import Optional
 
-class NHLClientProvider():
+class NHLClientProvider:
+    """Provides an instance of the NHL api client. 
+       Used and inherited so only one api instance is ever made.
+    """
     def __init__(self):
         self.client: NHLClient = NHLClient()
         
