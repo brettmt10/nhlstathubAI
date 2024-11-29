@@ -30,7 +30,7 @@ class NHLData(DataMerger):
             list[dict]: daily schedule, of each team's full name, city name, 
             team name, logo information, and match time.
         """
-        self.nhl.schedule_handler.nhl_schedule()
+        return self.nhl.schedule_handler.nhl_schedule()
     
     def get_scheduled_teams(self) -> list[str]:
         """Front facing wrapper to get list of scheduled teams.
@@ -38,4 +38,4 @@ class NHLData(DataMerger):
         Returns:
             list[str]: Returns a list of teams scheduled to play in given date. Values are team names.
         """
-        self.nhl.schedule_handler.nhl_scheduled_teams()
+        return self.nhl.schedule_handler.nhl_scheduled_teams()
