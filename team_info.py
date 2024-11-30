@@ -45,21 +45,21 @@ teams = {
         'city': 'Chicago',
         'name': 'Blackhawks',
         'full_name': 'Chicago Blackhawks',
-        'id': '16',
+        'id': '11',
         'abbreviation': 'CHI'
     },
     'Avalanche': {
         'city': 'Colorado',
         'name': 'Avalanche',
         'full_name': 'Colorado Avalanche',
-        'id': '21',
+        'id': '27',
         'abbreviation': 'COL'
     },
     'Blue Jackets': {
         'city': 'Columbus',
         'name': 'Blue Jackets',
         'full_name': 'Columbus Blue Jackets',
-        'id': '29',
+        'id': '36',
         'abbreviation': 'CBJ'
     },
     'Stars': {
@@ -73,7 +73,7 @@ teams = {
         'city': 'Detroit',
         'name': 'Red Wings',
         'full_name': 'Detroit Red Wings',
-        'id': '17',
+        'id': '12',
         'abbreviation': 'DET'
     },
     'Oilers': {
@@ -94,14 +94,14 @@ teams = {
         'city': 'Los Angeles',
         'name': 'Kings',
         'full_name': 'Los Angeles Kings',
-        'id': '26',
+        'id': '14',
         'abbreviation': 'LAK'
     },
     'Wild': {
         'city': 'Minnesota',
         'name': 'Wild',
         'full_name': 'Minnesota Wild',
-        'id': '30',
+        'id': '37',
         'abbreviation': 'MIN'
     },
     'Canadiens': {
@@ -115,7 +115,7 @@ teams = {
         'city': 'Nashville',
         'name': 'Predators',
         'full_name': 'Nashville Predators',
-        'id': '18',
+        'id': '34',
         'abbreviation': 'NSH'
     },
     'Devils': {
@@ -150,7 +150,7 @@ teams = {
         'city': 'Philadelphia',
         'name': 'Flyers',
         'full_name': 'Philadelphia Flyers',
-        'id': '4',
+        'id': '16',
         'abbreviation': 'PHI'
     },
     'Penguins': {
@@ -164,7 +164,7 @@ teams = {
         'city': 'San Jose',
         'name': 'Sharks',
         'full_name': 'San Jose Sharks',
-        'id': '28',
+        'id': '29',
         'abbreviation': 'SJS'
     },
     'Kraken': {
@@ -206,7 +206,7 @@ teams = {
         'city': 'Vegas',
         'name': 'Golden Knights',
         'full_name': 'Vegas Golden Knights',
-        'id': '54',
+        'id': '38',
         'abbreviation': 'VGK'
     },
     'Capitals': {
