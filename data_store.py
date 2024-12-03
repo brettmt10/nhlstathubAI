@@ -4,6 +4,7 @@ import pandas as pd
 
 class NHLData(DataMerger):
     """Public user scoped wrapper class to fetch essential data.
+    NHL Schedule automatically builds in proper class. No need to instantiate anything manually.
 
     Args:
         DataMerger: DataMerger class - merges and finalizes data.
@@ -39,3 +40,19 @@ class NHLData(DataMerger):
             list[str]: Returns a list of teams scheduled to play in given date. Values are team names.
         """
         return self.nhl.schedule_handler.nhl_scheduled_teams()
+    
+    def get_player_salaries(self) -> pd.DataFrame:
+        """Front facing wrapper to return player data with salaries only. Meant for joining in SQLite.
+
+        Returns:
+            pd.DataFrame: player salary data and team abbreviation for join
+        """
+        return self.dk.get_available_player_salaries()
+    
+    def get_daily_player_data_without_salaries(self) -> dict[pd.DataFrame]:
+        """Returns the daily player base from merger class. No salaries. Meant for joining in SQLite.
+
+        Returns:
+            dict[pd.DataFrame]: _description_
+        """
+        return self.build_scheduled_teams_player_database()
