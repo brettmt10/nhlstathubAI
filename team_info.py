@@ -178,7 +178,7 @@ teams = {
         'city': 'St. Louis',
         'name': 'Blues',
         'full_name': 'St. Louis Blues',
-        'id': '19',
+        'id': '18',
         'abbreviation': 'STL'
     },
     'Lightning': {
