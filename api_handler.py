@@ -241,7 +241,8 @@ class NHLPlayerDataHandler(NHLScheduleHandler):
                 "shots": pd_summary["shots"],
                 "blocked_shots": pd_misc["blockedShots"],
                 'toi': round(pd_summary["timeOnIcePerGame"]/60, 2),
-                "salary": None # init to 0
+                "salary": None, # init to 0
+                "ppg": None
             }
             
             team_player_data.append(player_stats)

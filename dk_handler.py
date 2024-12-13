@@ -34,7 +34,7 @@ class DraftKingsDataHandler:
         dg: int = self.get_daily_draft_group()
         url: str = f'https://www.draftkings.com/lineup/getavailableplayerscsv?contestTypeId=125&draftGroupId={dg}'
         response: requests.Response = requests.get(url)
-        df: pd.DataFrame = pd.read_csv(pd.io.common.StringIO(response.text), usecols=['Name', 'Salary', 'TeamAbbrev'])
+        df: pd.DataFrame = pd.read_csv(pd.io.common.StringIO(response.text), usecols=['Name', 'Salary', 'AvgPointsPerGame', 'TeamAbbrev'])
         return df
     
     def available_player_salaries(self) -> pd.DataFrame:

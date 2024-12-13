@@ -56,19 +56,23 @@ class DataMerger:
         """
         db: dict[pd.DataFrame] = self.build_scheduled_teams_player_database()
 
-        for player in self.available_player_salaries.iterrows():
+        for player_dk in self.available_player_salaries.iterrows():
             
-            player: pd.Series = player[1]
+            player: pd.Series = player_dk[1]
            
             team_abbrev: str = player.get('TeamAbbrev')
 
             player_salary: int = player.get('Salary')
             
+            avg_ppg: float = player.get('AvgPointsPerGame')
+            
             team_df: pd.DataFrame = db[team_abbrev]
             player_name: str = player.get('Name')
+            
             # update the salary where the player name matches
             try:
                 db[team_abbrev].loc[team_df['name'] == player_name, 'salary'] = player_salary
+                db[team_abbrev].loc[team_df['name'] == player_name, 'ppg'] = avg_ppg
             except:
                 print(f'{player_name} not draftable. skipping...')
 
