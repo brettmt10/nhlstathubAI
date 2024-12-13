@@ -1,4 +1,4 @@
-from data_merger import DataMerger
+from handlers.data_merger import DataMerger
 from typing import Optional
 import pandas as pd
 
