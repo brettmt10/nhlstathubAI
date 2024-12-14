@@ -1,10 +1,10 @@
-from api_handler import NHLHandler
-from dk_handler import DraftKingsDataHandler
+from src.handlers.api_handler import NHLHandler
+from src.handlers.dk_handler import DraftKingsDataHandler
 
 import pandas as pd
 from typing import Optional
 
-import team_info
+import src.team_info as team_info
 
 class DataMerger:
     """Merges draft kings data into nhl api player data and finalizes data sets for web app.

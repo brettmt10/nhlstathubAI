@@ -5,7 +5,7 @@ from nhlpy.api.query.builder import QueryBuilder, QueryContext
 
 import pandas as pd
 
-import team_info
+import src.team_info as team_info
 from datetime import datetime
 import pytz
 from typing import Optional
