@@ -14,12 +14,12 @@ class NHLData(DataMerger):
         super().__init__(date=date)
     
     def get_daily_player_data(self) -> dict[pd.DataFrame]:
-        """Front facing wrapper to get  daily player data.
+        """Front facing wrapper to get daily player data.
 
         Returns:
             dict[pd.DataFrame]: a dictionary, by team name, for each team, with dataframes containing
             player data: "name", "team", "position", "games_played", "points", "goals", "assists", "shots"
-            "blocked_shots", 'toi', "salary".
+            "blocked_shots", 'toi', "salary", "ppg".
         """
         data = self.daily_player_database()
         return data
