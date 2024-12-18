@@ -193,10 +193,14 @@ class NHLPlayerDataHandler(NHLScheduleHandler):
         except ValueError:
             print("No games today, NHLPlayerDataHandler still useable.")
             pass
-
+        
+    def calculate_player_fantasy_pts(self, game_log_l10):
+        pass
+    
     def get_player_game_log(self, player_id: int) -> pd.DataFrame:
         game_log_raw: list[dict] = self.client.stats.player_game_log(player_id=player_id, season_id="20242025", game_type='2')
         game_log = pd.DataFrame(game_log_raw)
+        game_log = game_log[['goals', 'assists', 'shots', 'shorthandedGoals']]
     
     def calculate_player_variance(self):
         pass
