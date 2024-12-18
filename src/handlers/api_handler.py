@@ -194,6 +194,13 @@ class NHLPlayerDataHandler(NHLScheduleHandler):
             print("No games today, NHLPlayerDataHandler still useable.")
             pass
 
+    def get_player_game_log(self, player_id: int) -> pd.DataFrame:
+        game_log_raw: list[dict] = self.client.stats.player_game_log(player_id=player_id, season_id="20242025", game_type='2')
+        game_log = pd.DataFrame(game_log_raw)
+    
+    def calculate_player_variance(self):
+        pass
+    
     def get_team_player_data(self, team_name: str) -> dict:
         """Get the required GUI player data for a team.
 
@@ -230,6 +237,10 @@ class NHLPlayerDataHandler(NHLScheduleHandler):
         ).get('data')
         
         for pd_summary, pd_misc in zip(team_player_data_summary, team_player_data_misc):
+            player_id: int = pd_summary["playerId"]
+            
+            self.get_player_game_log(player_id)
+            
             player_stats: dict = {
                 "name": pd_summary["skaterFullName"],
                 "team": team_abbrev,
