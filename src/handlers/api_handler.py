@@ -4,6 +4,7 @@ from nhlpy.api.query.filters.season import SeasonQuery
 from nhlpy.api.query.builder import QueryBuilder, QueryContext
 
 import pandas as pd
+import requests
 
 import src.team_info as team_info
 from datetime import datetime
@@ -198,9 +199,13 @@ class NHLPlayerDataHandler(NHLScheduleHandler):
         pass
     
     def get_player_game_log(self, player_id: int) -> pd.DataFrame:
-        game_log_raw: list[dict] = self.client.stats.player_game_log(player_id=player_id, season_id="20242025", game_type='2')
-        game_log = pd.DataFrame(game_log_raw)
-        game_log = game_log[['goals', 'assists', 'shots', 'shorthandedGoals']]
+        url = 'https://www.naturalstattrick.com/playerreport.php?fromseason=20242025&thruseason=20242025&stype=2&sit=5v5&stdoi=std&rate=n&v=g&playerid=8477933#'
+        res = requests.get(url)
+        raw: list = pd.read_html(pd.io.common.StringIO(res.text))
+        game_log_nst = pd.DataFrame(raw[0])
+        
+        raw: list[dict] = self.client.stats.player_game_log(player_id=player_id, season_id="20242025", game_type='2')
+        game_log_nhl = pd.DataFrame(raw)
     
     def calculate_player_variance(self):
         pass
