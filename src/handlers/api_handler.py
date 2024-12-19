@@ -248,7 +248,7 @@ class NHLPlayerDataHandler(NHLScheduleHandler):
         for pd_summary, pd_misc in zip(team_player_data_summary, team_player_data_misc):
             player_id: int = pd_summary["playerId"]
             
-            self.get_player_game_log(player_id)
+            # self.get_player_game_log(player_id)
             
             player_stats: dict = {
                 "name": pd_summary["skaterFullName"],
