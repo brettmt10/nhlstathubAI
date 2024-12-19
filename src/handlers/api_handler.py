@@ -199,7 +199,7 @@ class NHLPlayerDataHandler(NHLScheduleHandler):
         pass
     
     def get_player_game_log(self, player_id: int) -> pd.DataFrame:
-        url = 'https://www.naturalstattrick.com/playerreport.php?fromseason=20242025&thruseason=20242025&stype=2&sit=5v5&stdoi=std&rate=n&v=g&playerid=8477933#'
+        url = f'https://www.naturalstattrick.com/playerreport.php?fromseason=20242025&thruseason=20242025&stype=2&sit=5v5&stdoi=std&rate=n&v=g&playerid={player_id}#'
         res = requests.get(url)
         raw: list = pd.read_html(pd.io.common.StringIO(res.text))
         game_log_nst = pd.DataFrame(raw[0])
