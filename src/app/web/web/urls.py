@@ -1,3 +1,5 @@
+from nhl import views
+from django.urls import include, path
 """
 URL configuration for web project.
 
@@ -16,7 +18,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.http import HttpResponse
+
+def front_page(request):
+    return HttpResponse("Welcome!")
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path("hockey-teams/", include("nhl.urls")),
+    path("", front_page),
 ]
