@@ -6,5 +6,5 @@ from django.http import HttpResponse
 def bruins(request):
     return HttpResponse("Hello, world. You are at the Bruins page.")
 
-def front_page(request):
-    return HttpResponse("Welcome! Pick a hockey team.")
+def hockey_teams_menu(request):
+    return HttpResponse("Pick a hockey team.")
