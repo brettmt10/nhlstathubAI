@@ -4,6 +4,7 @@ from nhlpy.api.query.filters.season import SeasonQuery
 from nhlpy.api.query.builder import QueryBuilder, QueryContext
 
 import pandas as pd
+import requests
 
 import src.team_info as team_info
 from datetime import datetime
@@ -193,7 +194,22 @@ class NHLPlayerDataHandler(NHLScheduleHandler):
         except ValueError:
             print("No games today, NHLPlayerDataHandler still useable.")
             pass
-
+        
+    def calculate_player_fantasy_pts(self, game_log_l10):
+        pass
+    
+    def get_player_game_log(self, player_id: int) -> pd.DataFrame:
+        url = f'https://www.naturalstattrick.com/playerreport.php?fromseason=20242025&thruseason=20242025&stype=2&sit=5v5&stdoi=std&rate=n&v=g&playerid={player_id}#'
+        res = requests.get(url)
+        raw: list = pd.read_html(pd.io.common.StringIO(res.text))
+        game_log_nst = pd.DataFrame(raw[0])
+        
+        raw: list[dict] = self.client.stats.player_game_log(player_id=player_id, season_id="20242025", game_type='2')
+        game_log_nhl = pd.DataFrame(raw)
+    
+    def calculate_player_variance(self):
+        pass
+    
     def get_team_player_data(self, team_name: str) -> dict:
         """Get the required GUI player data for a team.
 
@@ -230,6 +246,10 @@ class NHLPlayerDataHandler(NHLScheduleHandler):
         ).get('data')
         
         for pd_summary, pd_misc in zip(team_player_data_summary, team_player_data_misc):
+            player_id: int = pd_summary["playerId"]
+            
+            # self.get_player_game_log(player_id)
+            
             player_stats: dict = {
                 "name": pd_summary["skaterFullName"],
                 "team": team_abbrev,

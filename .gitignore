@@ -3,3 +3,4 @@ venv
 .vscode
 test.py
 test.ipynb
+.env
