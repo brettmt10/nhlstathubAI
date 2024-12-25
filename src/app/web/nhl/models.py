@@ -17,7 +17,7 @@ class ApiData(models.Model):
 
 class PlayerData(models.Model):
     player_data = models.ForeignKey(ApiData, on_delete=models.CASCADE, null=True)
-    salary = models.CharField(max_length=10, null=True, blank=True)
+    salary = models.IntegerField(null=True, blank=True)
     ppg = models.FloatField(null=True, blank=True, help_text="Points per game")
     
     def __str__(self):

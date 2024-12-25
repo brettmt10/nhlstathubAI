@@ -55,9 +55,13 @@ class DataMerger:
 
         for player in self.available_player_salaries.iterrows():
             p_dk: pd.Series = player[1]
-            name = p_dk.get('Name')
-            team = p_dk.get('TeamAbbrev')
+            name: str = p_dk.get('Name')
+            team: str = p_dk.get('TeamAbbrev')
+            salary: int = p_dk.get('Salary')
+            ppg: float = p_dk.get('AvgPointsPerGame')
+            
             p_api = db[team].query(f'name == {name}')
+            
             p = ApiData(name = name,
                         team=team,
                         position=p_api['position'],
