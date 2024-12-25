@@ -6,6 +6,8 @@ from typing import Optional
 
 import src.team_info as team_info
 
+from src.app.web.nhl.models import ApiData, PlayerData
+
 class DataMerger:
     """Merges draft kings data into nhl api player data and finalizes data sets for web app.
         Used by NHLData to create wrapper functions.
@@ -46,6 +48,21 @@ class DataMerger:
             db[team_info.teams.get(team).get('abbreviation')] = team_data # needs to be team abbreviation to relate to salary data
             
         return db
+    
+    def merge_salaries_into_database(self) -> None:
+        """Merges salary data with player data into PostgreSQL database"""
+        db: dict[pd.DataFrame] = self.build_scheduled_teams_player_database()
+
+        for player in self.available_player_salaries.iterrows():
+            p_dk: pd.Series = player[1]
+            name = p_dk.get('Name')
+            team = p_dk.get('TeamAbbrev')
+            p_api = db[team].query(f'name == {name}')
+            p = ApiData(name = name,
+                        team=team,
+                        position=p_api['position'],
+                        games_played=p_api['games_played'])
+            
     
     def merge_salaries_set_database(self) -> dict[pd.DataFrame]:
         """Merge the draftkings player/salary database from date, and merges the salary values into
