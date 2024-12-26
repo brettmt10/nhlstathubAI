@@ -55,17 +55,20 @@ class DataMerger:
 
         for player in self.available_player_salaries.iterrows():
             p_dk: pd.Series = player[1]
-            name: str = p_dk.get('Name')
+            df = db[team]
+            p_api: pd.Series = df[df['name'] == name].iloc[0]
             team: str = p_dk.get('TeamAbbrev')
+    
+            name: str = p_dk.get('Name')
             salary: int = p_dk.get('Salary')
             ppg: float = p_dk.get('AvgPointsPerGame')
+            position: str = p_api.get('position')
+            games_played: int = p_api.get('games_played')
             
-            p_api = db[team].query(f'name == {name}')
-            
-            p = ApiData(name = name,
+            p = PlayerData(name = name,
                         team=team,
-                        position=p_api['position'],
-                        games_played=p_api['games_played'])
+                        position=position,
+                        games_played=games_played)
             
     
     def merge_salaries_set_database(self) -> dict[pd.DataFrame]:
