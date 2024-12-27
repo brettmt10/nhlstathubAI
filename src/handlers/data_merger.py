@@ -3,8 +3,16 @@ from src.handlers.dk_handler import DraftKingsDataHandler
 
 import pandas as pd
 from typing import Optional
+import os
+import django
 
 import src.team_info as team_info
+
+print("setting up django..")
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'src.app.web.web.settings')
+django.setup()
+
+from src.app.web.nhl.models import ApiData, PlayerData
 
 class DataMerger:
     """Merges draft kings data into nhl api player data and finalizes data sets for web app.
@@ -46,6 +54,49 @@ class DataMerger:
             db[team_info.teams.get(team).get('abbreviation')] = team_data # needs to be team abbreviation to relate to salary data
             
         return db
+    
+    def create_player_merge_database_model(self) -> None:
+        """Merges salary data with player data into PostgreSQL database"""
+        db: dict[pd.DataFrame] = self.build_scheduled_teams_player_database()
+
+        for player in self.available_player_salaries.iterrows():
+            p_dk: pd.Series = player[1]
+            team: str = p_dk.get('TeamAbbrev')
+            name: pd.Series = p_dk.get('Name')
+            df = db[team]
+            try:  
+                p_api: pd.Series = df[df['name'] == name].iloc[0]
+            except IndexError:
+                # print(f"{name} not draftable for this team: {team}.")
+                pass
+            
+            position: str = p_api.get('position')
+            games_played: int = p_api.get('games_played')
+            points: int = p_api.get('points')
+            goals: int = p_api.get('goals')
+            assists: int = p_api.get('assists')
+            shots: int = p_api.get('shots')
+            blocked_shots: int = p_api.get('blocked_shots')
+            toi: float = p_api.get('toi')
+            salary: int = p_dk.get('Salary')
+            ppg: float = p_dk.get('AvgPointsPerGame')
+            
+            p = PlayerData(name = name,
+                        team=team,
+                        position=position,
+                        games_played=games_played,
+                        points=points,
+                        goals=goals,
+                        assists=assists,
+                        shots=shots,
+                        blocked_shots=blocked_shots,
+                        toi=toi,
+                        salary=salary,
+                        ppg=ppg)
+            
+            p.save()
+            
+            
     
     def merge_salaries_set_database(self) -> dict[pd.DataFrame]:
         """Merge the draftkings player/salary database from date, and merges the salary values into
