@@ -3,10 +3,16 @@ from src.handlers.dk_handler import DraftKingsDataHandler
 
 import pandas as pd
 from typing import Optional
+import os
+import django
 
 import src.team_info as team_info
 
-# from src.app.web.nhl.models import ApiData, PlayerData
+print("setting up django..")
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'src.app.web.web.settings')
+django.setup()
+
+from src.app.web.nhl.models import ApiData, PlayerData
 
 class DataMerger:
     """Merges draft kings data into nhl api player data and finalizes data sets for web app.
@@ -58,7 +64,11 @@ class DataMerger:
             team: str = p_dk.get('TeamAbbrev')
             name: pd.Series = p_dk.get('Name')
             df = db[team]
-            p_api: pd.Series = df[df['name'] == name].iloc[0]
+            try:  
+                p_api: pd.Series = df[df['name'] == name].iloc[0]
+            except IndexError:
+                # print(f"{name} not draftable for this team: {team}.")
+                pass
             
             position: str = p_api.get('position')
             games_played: int = p_api.get('games_played')
@@ -71,10 +81,21 @@ class DataMerger:
             salary: int = p_dk.get('Salary')
             ppg: float = p_dk.get('AvgPointsPerGame')
             
-            # p = PlayerData(name = name,
-            #             team=team,
-            #             position=position,
-            #             games_played=games_played)
+            p = PlayerData(name = name,
+                        team=team,
+                        position=position,
+                        games_played=games_played,
+                        points=points,
+                        goals=goals,
+                        assists=assists,
+                        shots=shots,
+                        blocked_shots=blocked_shots,
+                        toi=toi,
+                        salary=salary,
+                        ppg=ppg)
+            
+            p.save()
+            
             
     
     def merge_salaries_set_database(self) -> dict[pd.DataFrame]:
