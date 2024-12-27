@@ -6,7 +6,7 @@ from typing import Optional
 
 import src.team_info as team_info
 
-from src.app.web.nhl.models import ApiData, PlayerData
+# from src.app.web.nhl.models import ApiData, PlayerData
 
 class DataMerger:
     """Merges draft kings data into nhl api player data and finalizes data sets for web app.
@@ -49,26 +49,32 @@ class DataMerger:
             
         return db
     
-    def merge_salaries_into_database(self) -> None:
+    def create_player_merge_database_model(self) -> None:
         """Merges salary data with player data into PostgreSQL database"""
         db: dict[pd.DataFrame] = self.build_scheduled_teams_player_database()
 
         for player in self.available_player_salaries.iterrows():
             p_dk: pd.Series = player[1]
+            team: str = p_dk.get('TeamAbbrev')
+            name: pd.Series = p_dk.get('Name')
             df = db[team]
             p_api: pd.Series = df[df['name'] == name].iloc[0]
-            team: str = p_dk.get('TeamAbbrev')
-    
-            name: str = p_dk.get('Name')
-            salary: int = p_dk.get('Salary')
-            ppg: float = p_dk.get('AvgPointsPerGame')
+            
             position: str = p_api.get('position')
             games_played: int = p_api.get('games_played')
+            points: int = p_api.get('points')
+            goals: int = p_api.get('goals')
+            assists: int = p_api.get('assists')
+            shots: int = p_api.get('shots')
+            blocked_shots: int = p_api.get('blocked_shots')
+            toi: float = p_api.get('toi')
+            salary: int = p_dk.get('Salary')
+            ppg: float = p_dk.get('AvgPointsPerGame')
             
-            p = PlayerData(name = name,
-                        team=team,
-                        position=position,
-                        games_played=games_played)
+            # p = PlayerData(name = name,
+            #             team=team,
+            #             position=position,
+            #             games_played=games_played)
             
     
     def merge_salaries_set_database(self) -> dict[pd.DataFrame]:
