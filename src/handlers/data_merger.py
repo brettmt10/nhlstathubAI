@@ -12,7 +12,7 @@ print("setting up django..")
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'src.app.web.web.settings')
 django.setup()
 
-from src.app.web.nhl.models import ApiData, PlayerData
+from src.app.web.nhl.models import PlayerData
 
 class DataMerger:
     """Merges draft kings data into nhl api player data and finalizes data sets for web app.
