@@ -2,6 +2,8 @@
 <html>
 <head>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@800&display=swap');
+
         .banner {
             background-color: rgba(25, 25, 25, 0.95);
             padding: 20px;
@@ -20,7 +22,21 @@
             align-items: center;
         }
 
-        /* Existing Styles */
+        .banner-content h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 800;
+            font-style: italic;
+            color: white;
+            text-transform: uppercase;
+            margin: 0;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #fff 40%, #e0e0e0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transition: transform 0.3s ease;
+        }
+
         .button-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -60,12 +76,12 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-size: 155%;
+            opacity: 0.65;
+            background-size: 160%;
             background-position: center;
             background-repeat: no-repeat;
-            opacity: 0.7;
             z-index: 1;
-            transition: opacity 0.3s ease;
+            transition: all 0.3s ease;
         }
 
         .nhl-button::before {
@@ -86,6 +102,7 @@
 
         .nhl-button:hover::after {
             opacity: 1;
+            background-size: 170%;
         }
 
         .nhl-button:hover {
