@@ -1,7 +1,180 @@
-{% for player in players %}
-    <div>
-        {{ player.name }}
-        {{ player.position }}
-        <!-- other fields -->
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .banner {
+            background-color: rgba(25, 25, 25, 0.95);
+            padding: 20px;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .banner-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Existing Styles */
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .nhl-button {
+            width: 200px;
+            height: 200px;
+            background-color: rgba(51, 51, 51, 0.7);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            justify-self: center;
+        }
+
+        .nhl-button::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-size: 155%;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.7;
+            z-index: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .nhl-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: linear-gradient(
+                to bottom,
+                rgba(255, 255, 255, 0.15),
+                rgba(255, 255, 255, 0.05)
+            );
+            border-radius: 10px 10px 0 0;
+            z-index: 2;
+        }
+
+        .nhl-button:hover::after {
+            opacity: 1;
+        }
+
+        .nhl-button:hover {
+            background-color: rgba(68, 68, 68, 0.8);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .ana::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/ANA_light.svg'); }
+        .bos::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/BOS_light.svg'); }
+        .buf::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/BUF_light.svg'); }
+        .cgy::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/CGY_light.svg'); }
+        .car::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/CAR_light.svg'); }
+        .chi::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/CHI_light.svg'); }
+        .col::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/COL_light.svg'); }
+        .cbj::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/CBJ_light.svg'); }
+        .dal::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/DAL_light.svg'); }
+        .det::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/DET_light.svg'); }
+        .edm::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/EDM_light.svg'); }
+        .fla::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/FLA_light.svg'); }
+        .lak::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/LAK_light.svg'); }
+        .min::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/MIN_light.svg'); }
+        .mtl::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/MTL_light.svg'); }
+        .nsh::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/NSH_light.svg'); }
+        .njd::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/NJD_light.svg'); }
+        .nyi::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/NYI_light.svg'); }
+        .nyr::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/NYR_light.svg'); }
+        .ott::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/OTT_light.svg'); }
+        .phi::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/PHI_light.svg'); }
+        .pit::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/PIT_light.svg'); }
+        .sjs::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/SJS_light.svg'); }
+        .sea::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/SEA_light.svg'); }
+        .stl::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/STL_light.svg'); }
+        .tbl::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/TBL_light.svg'); }
+        .tor::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/TOR_light.svg'); }
+        .uta::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/UTA_light.svg'); }
+        .van::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/VAN_light.svg'); }
+        .vgk::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/VGK_light.svg'); }
+        .wsh::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/WSH_light.svg'); }
+        .wpg::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/WPG_light.svg'); }
+
+        body {
+            background: #1a1a1a;
+            margin: 0;
+            min-height: 100vh;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="banner">
+        <div class="banner-content">
+            <h1>NHL Teams</h1>
+        </div>
     </div>
-{% endfor %}
+
+    <div class="button-grid">
+        <button class="nhl-button ana"></button>
+        <button class="nhl-button bos"></button>
+        <button class="nhl-button buf"></button>
+        <button class="nhl-button cgy"></button>
+        <button class="nhl-button car"></button>
+        <button class="nhl-button chi"></button>
+        <button class="nhl-button col"></button>
+        <button class="nhl-button cbj"></button>
+        <button class="nhl-button dal"></button>
+        <button class="nhl-button det"></button>
+        <button class="nhl-button edm"></button>
+        <button class="nhl-button fla"></button>
+        <button class="nhl-button lak"></button>
+        <button class="nhl-button min"></button>
+        <button class="nhl-button mtl"></button>
+        <button class="nhl-button nsh"></button>
+        <button class="nhl-button njd"></button>
+        <button class="nhl-button nyi"></button>
+        <button class="nhl-button nyr"></button>
+        <button class="nhl-button ott"></button>
+        <button class="nhl-button phi"></button>
+        <button class="nhl-button pit"></button>
+        <button class="nhl-button sjs"></button>
+        <button class="nhl-button sea"></button>
+        <button class="nhl-button stl"></button>
+        <button class="nhl-button tbl"></button>
+        <button class="nhl-button tor"></button>
+        <button class="nhl-button uta"></button>
+        <button class="nhl-button van"></button>
+        <button class="nhl-button vgk"></button>
+        <button class="nhl-button wsh"></button>
+        <button class="nhl-button wpg"></button>
+    </div>
+</body>
+</html>
