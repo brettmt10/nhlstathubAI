@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@800&display=swap');
+
+        .banner {
+            background-color: rgba(25, 25, 25, 0.95);
+            padding: 20px;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center
+        }
+
+        .banner-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .banner-content h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 5.5rem;
+            font-weight: 800;
+            font-style: italic;
+            color: white;
+            text-transform: uppercase;
+            margin: 0;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #fff 40%, #e0e0e0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transition: transform 0.3s ease;
+        }
+
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .nhl-button {
+            font-family: 'Arial', sans-serif;
+            text-decoration: none;
+            display: flex;
+            width: 250px;
+            height: 200px;
+            background-color: rgba(51, 51, 51, 0.7);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            justify-self: center;
+            color: white;
+            font-weight: 800;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nhl-button span {
+            position: relative;
+            z-index: 3;
+            opacity: 0.9;
+            transition: opacity 0.3s ease;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            -webkit-text-stroke-width: 1px;
+            -webkit-text-stroke-color: black;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .nhl-button:hover span {
+            opacity: 1;
+        }
+
+        .nhl-button::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0.55;
+            background-size: 150%;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: 1;
+            transition: all 0.3s ease;
+            justify-items: center;
+        }
+
+        .nhl-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: linear-gradient(
+                to bottom,
+                rgba(255, 255, 255, 0.15),
+                rgba(255, 255, 255, 0.05)
+            );
+            border-radius: 10px 10px 0 0;
+            z-index: 2;
+        }
+
+        .nhl-button:hover::after {
+            opacity: 1;
+            background-size: 170%;
+        }
+
+        .nhl-button:hover {
+            background-color: rgba(68, 68, 68, 0.8);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .ana::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/ANA_light.svg'); }
+        .bos::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/BOS_light.svg'); }
+        .buf::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/BUF_light.svg'); }
+        .cgy::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/CGY_light.svg'); }
+        .car::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/CAR_light.svg'); }
+        .chi::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/CHI_light.svg'); }
+        .col::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/COL_light.svg'); }
+        .cbj::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/CBJ_light.svg'); }
+        .dal::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/DAL_light.svg'); }
+        .det::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/DET_light.svg'); }
+        .edm::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/EDM_light.svg'); }
+        .fla::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/FLA_light.svg'); }
+        .lak::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/LAK_light.svg'); }
+        .min::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/MIN_light.svg'); }
+        .mtl::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/MTL_light.svg'); }
+        .nsh::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/NSH_light.svg'); }
+        .njd::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/NJD_light.svg'); }
+        .nyi::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/NYI_light.svg'); }
+        .nyr::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/NYR_light.svg'); }
+        .ott::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/OTT_light.svg'); }
+        .phi::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/PHI_light.svg'); }
+        .pit::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/PIT_light.svg'); }
+        .sjs::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/SJS_light.svg'); }
+        .sea::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/SEA_light.svg'); }
+        .stl::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/STL_light.svg'); }
+        .tbl::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/TBL_light.svg'); }
+        .tor::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/TOR_light.svg'); }
+        .uta::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/UTA_light.svg'); }
+        .van::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/VAN_light.svg'); }
+        .vgk::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/VGK_light.svg'); }
+        .wsh::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/WSH_light.svg'); }
+        .wpg::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/WPG_light.svg'); }
+
+        body {
+            background: #1a1a1a;
+            margin: 0;
+            min-height: 100vh;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="banner">
+        <div class="banner-content">
+            <h1>NHL Teams</h1>
+        </div>
+    </div>
+
+    <div class="button-grid">
+        <a href="ducks" class="nhl-button ana"><span>Anaheim<br>Ducks</span></a>
+        <a href="bruins" class="nhl-button bos"><span>Boston<br>Bruins</span></a>
+        <a href="sabres" class="nhl-button buf"><span>Buffalo<br>Sabres</span></a>
+        <a href="flames" class="nhl-button cgy"><span>Calgary<br>Flames</span></a>
+        <a href="hurricanes" class="nhl-button car"><span>Carolina<br>Hurricanes</span></a>
+        <a href="blackhawks" class="nhl-button chi"><span>Chicago<br>Blackhawks</span></a>
+        <a href="avalanche" class="nhl-button col"><span>Colorado<br>Avalanche</span></a>
+        <a href="blue-jackets" class="nhl-button cbj"><span>Columbus<br>Blue Jackets</span></a>
+        <a href="stars" class="nhl-button dal"><span>Dallas<br>Stars</span></a>
+        <a href="red-wings" class="nhl-button det"><span>Detroit<br>Red Wings</span></a>
+        <a href="oilers" class="nhl-button edm"><span>Edmonton<br>Oilers</span></a>
+        <a href="panthers" class="nhl-button fla"><span>Florida<br>Panthers</span></a>
+        <a href="kings" class="nhl-button lak"><span>Los Angeles<br>Kings</span></a>
+        <a href="wild" class="nhl-button min"><span>Minnesota<br>Wild</span></a>
+        <a href="canadiens" class="nhl-button mtl"><span>Montreal<br>Canadiens</span></a>
+        <a href="predators" class="nhl-button nsh"><span>Nashville<br>Predators</span></a>
+        <a href="devils" class="nhl-button njd"><span>New Jersey<br>Devils</span></a>
+        <a href="islanders" class="nhl-button nyi"><span>New York<br>Islanders</span></a>
+        <a href="rangers" class="nhl-button nyr"><span>New York<br>Rangers</span></a>
+        <a href="senators" class="nhl-button ott"><span>Ottawa<br>Senators</span></a>
+        <a href="flyers" class="nhl-button phi"><span>Philadelphia<br>Flyers</span></a>
+        <a href="penguins" class="nhl-button pit"><span>Pittsburgh<br>Penguins</span></a>
+        <a href="sharks" class="nhl-button sjs"><span>San Jose<br>Sharks</span></a>
+        <a href="kraken" class="nhl-button sea"><span>Seattle<br>Kraken</span></a>
+        <a href="blues" class="nhl-button stl"><span>St. Louis<br>Blues</span></a>
+        <a href="lightning" class="nhl-button tbl"><span>Tampa Bay<br>Lightning</span></a>
+        <a href="maple-leafs" class="nhl-button tor"><span>Toronto<br>Maple Leafs</span></a>
+        <a href="hockey-club" class="nhl-button uta"><span>Utah<br>Hockey Club</span></a>
+        <a href="canucks" class="nhl-button van"><span>Vancouver<br>Canucks</span></a>
+        <a href="golden-knights" class="nhl-button vgk"><span>Vegas<br>Golden Knights</span></a>
+        <a href="capitals" class="nhl-button wsh"><span>Washington<br>Capitals</span></a>
+        <a href="jets" class="nhl-button wpg"><span>Winnipeg<br>Jets</span></a>
+    </div>
+</body>
+</html>

@@ -12,4 +12,5 @@ def bruins(request):
     return HttpResponse(template.render(context, request))
 
 def hockey_teams_menu(request):
-    return HttpResponse("Pick a hockey team.")
+    template = loader.get_template("templates/nhl/hockey-teams/index.html")
+    return HttpResponse(template.render(request=request))
