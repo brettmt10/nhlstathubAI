@@ -28,14 +28,15 @@ class DataMerger:
         
         try:
             self.scheduled_teams: list[str] = self.nhl.schedule_handler.nhl_scheduled_teams()
+            self.scheduled_teams_player_database: dict[pd.DataFrame] = {}
+            self.schedule: list[dict] = self.nhl.schedule_handler.nhl_schedule()
+            self.available_player_salaries: pd.DataFrame = self.dk.available_player_salaries()
         except:
-            raise ValueError("No scheduled games today. Merger will not run.")
+            print("No scheduled games today. Merger will not run.")
+            pass
         
-        self.scheduled_teams_player_database: dict[pd.DataFrame] = {}
-        
-        self.schedule: list[dict] = self.nhl.schedule_handler.nhl_schedule()
+        self.all_teams: list[str] = self.nhl.teams_handler.nhl_all_teams()
 
-        self.available_player_salaries: pd.DataFrame = self.dk.available_player_salaries()
         
     def __get_scheduled_teams_player_database(self) -> dict[pd.DataFrame]:
         return self.scheduled_teams_player_database
@@ -47,9 +48,27 @@ class DataMerger:
         Returns:
             dict[pd.DataFrame]: dictionary of pandas dataframes for each teams player data
         """
+        try:
+            db: dict[pd.DataFrame] = {}
+            
+            for team in self.scheduled_teams:
+                team_data: pd.DataFrame = self.nhl.player_data_handler.get_team_player_data_as_df(team_name=team)
+                db[team_info.teams.get(team).get('abbreviation')] = team_data # needs to be team abbreviation to relate to salary data
+            
+            return db
+        except AttributeError:
+            raise AttributeError("No games today, please run 'build_all_teams_player_database' for all teams without salaries.")
+    
+    def build_all_teams_player_database(self) -> dict[pd.DataFrame]:
+        """Gets and builds a pandas dataframe for each teams player data, and puts it in a dictionary.
+            Key is team name.
+
+        Returns:
+            dict[pd.DataFrame]: dictionary of pandas dataframes for each teams player data
+        """
         db: dict[pd.DataFrame] = {}
         
-        for team in self.scheduled_teams:
+        for team in self.all_teams:
             team_data: pd.DataFrame = self.nhl.player_data_handler.get_team_player_data_as_df(team_name=team)
             db[team_info.teams.get(team).get('abbreviation')] = team_data # needs to be team abbreviation to relate to salary data
             
@@ -57,44 +76,45 @@ class DataMerger:
     
     def create_player_merge_database_model(self) -> None:
         """Merges salary data with player data into PostgreSQL database"""
-        db: dict[pd.DataFrame] = self.build_scheduled_teams_player_database()
+        db: dict[pd.DataFrame] = self.build_all_teams_player_database()
+        for team in db:
+            for player in db[team].iterrows():
+                p_api: pd.Series = player[1]
+                player_name = p_api.get("name")
 
-        for player in self.available_player_salaries.iterrows():
-            p_dk: pd.Series = player[1]
-            team: str = p_dk.get('TeamAbbrev')
-            name: pd.Series = p_dk.get('Name')
-            df = db[team]
-            try:  
-                p_api: pd.Series = df[df['name'] == name].iloc[0]
-            except IndexError:
-                # print(f"{name} not draftable for this team: {team}.")
-                pass
+                if player_name in self.available_player_salaries["Name"].values:
+                    p_dk: pd.Series = self.available_player_salaries[self.available_player_salaries["Name"] == player_name].iloc[0]
+                    salary = p_dk.get("Salary")
+                    ppg: float = p_dk.get('AvgPointsPerGame')
+                else:
+                    salary = 0
+                    ppg = 0
+                
+                position: str = p_api.get('position')
+                games_played: int = p_api.get('games_played')
+                points: int = p_api.get('points')
+                goals: int = p_api.get('goals')
+                assists: int = p_api.get('assists')
+                shots: int = p_api.get('shots')
+                blocked_shots: int = p_api.get('blocked_shots')
+                toi: float = p_api.get('toi')
+                salary: int = salary
+                ppg: float = ppg
             
-            position: str = p_api.get('position')
-            games_played: int = p_api.get('games_played')
-            points: int = p_api.get('points')
-            goals: int = p_api.get('goals')
-            assists: int = p_api.get('assists')
-            shots: int = p_api.get('shots')
-            blocked_shots: int = p_api.get('blocked_shots')
-            toi: float = p_api.get('toi')
-            salary: int = p_dk.get('Salary')
-            ppg: float = p_dk.get('AvgPointsPerGame')
-            
-            p = PlayerData(name = name,
-                        team=team,
-                        position=position,
-                        games_played=games_played,
-                        points=points,
-                        goals=goals,
-                        assists=assists,
-                        shots=shots,
-                        blocked_shots=blocked_shots,
-                        toi=toi,
-                        salary=salary,
-                        ppg=ppg)
-            
-            p.save()
+                p = PlayerData(name = player_name,
+                            team=team,
+                            position=position,
+                            games_played=games_played,
+                            points=points,
+                            goals=goals,
+                            assists=assists,
+                            shots=shots,
+                            blocked_shots=blocked_shots,
+                            toi=toi,
+                            salary=salary,
+                            ppg=ppg)
+                
+                p.save()
             
             
     

@@ -5,6 +5,7 @@ from nhlpy.api.query.builder import QueryBuilder, QueryContext
 
 import pandas as pd
 import requests
+import logging
 
 import src.team_info as team_info
 from datetime import datetime
@@ -280,6 +281,41 @@ class NHLPlayerDataHandler(NHLScheduleHandler):
         """
         team_player_data = self.get_team_player_data(team_name=team_name)
         return pd.DataFrame(team_player_data)
+    
+class NHLTeamsHandler:
+    def __init__(self, client: NHLClient):
+        self.client = client
+        self.all_teams: dict = {}
+        self.all_teams_metadata: list[dict] = self.client.teams.teams_info()
+
+    def __get_all_teams(self) -> dict:
+        return(self.all_teams)
+        
+    def build_all_teams(self) -> dict:
+        teams: dict = {}
+        for team in self.all_teams_metadata:
+            # bug in utah's name
+            c_team = team.get("common_name")
+            if c_team == "Utah Hockey Club":
+                c_team = "Hockey Club"
+            elif c_team == "Utah Hockey Club":
+                c_team = "Hockey Club"
+            teams[c_team] = team.get("abbr")
+        
+        return teams
+        
+    def set_all_teams(self) -> None:
+        self.all_teams: dict = self.build_all_teams()
+        
+    def nhl_all_teams(self) -> list[dict]:
+        """User function to get a list of all teams
+
+        Returns:
+            list[str]: _description_
+        """
+        self.set_all_teams()
+        return(self.__get_all_teams())
+
         
 class NHLHandler(NHLClientProvider):
     def __init__(self, date: Optional[str] = datetime.today().strftime('%Y-%m-%d')):
@@ -290,3 +326,4 @@ class NHLHandler(NHLClientProvider):
             pass
         
         self.player_data_handler: NHLPlayerDataHandler = NHLPlayerDataHandler(client=self.client, date=date)
+        self.teams_handler: NHLTeamsHandler = NHLTeamsHandler(client=self.client)
