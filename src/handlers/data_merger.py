@@ -3,15 +3,8 @@ from src.handlers.dk_handler import DraftKingsDataHandler
 
 import pandas as pd
 from typing import Optional
-import os
-import django
 
 import src.team_info as team_info
-
-print("setting up django..")
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'src.app.web.web.settings')
-django.setup()
-
 from src.app.web.nhl.models import PlayerData
 
 class DataMerger:
@@ -77,6 +70,7 @@ class DataMerger:
     def create_player_merge_database_model(self) -> None:
         """Merges salary data with player data into PostgreSQL database"""
         db: dict[pd.DataFrame] = self.build_all_teams_player_database()
+        
         for team in db:
             for player in db[team].iterrows():
                 p_api: pd.Series = player[1]
@@ -115,9 +109,8 @@ class DataMerger:
                             ppg=ppg)
                 
                 p.save()
-            
-            
-    
+        
+    # deprecated   
     def merge_salaries_set_database(self) -> dict[pd.DataFrame]:
         """Merge the draftkings player/salary database from date, and merges the salary values into
             each teams player dataframe
