@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@800&display=swap');
+
+        .banner {
+            background-color: rgba(25, 25, 25, 0.95);
+            padding: 20px;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center
+        }
+
+        .banner-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .banner-content h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 5.5rem;
+            font-weight: 800;
+            font-style: italic;
+            color: white;
+            text-transform: uppercase;
+            margin: 0;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #fff 40%, #e0e0e0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transition: transform 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="banner" id="banner">
+        <div class="banner-content">
+            <h1>NHL Teams</h1>
+        </div>
+    </div>
+</body>
+</html>
