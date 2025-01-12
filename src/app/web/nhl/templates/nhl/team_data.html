@@ -1,0 +1,239 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@800&display=swap');
+
+        body {
+            background: #1a1a1a;
+            margin: 0;
+            min-height: 100vh;
+            padding: 20px;
+            font-family: 'Arial', sans-serif;
+            color: white;
+        }
+
+        .team-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 10px;
+            padding: 0px;
+        }
+
+        .team-logo {
+            width: 200px;
+            height: 200px;
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5));
+        }
+
+        .team-header h1 {
+            text-align: center;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            color: white;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: rgba(51, 51, 51, 0.7);
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .stats-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 20px;
+        }
+
+        .stats-table th {
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            text-align: left;
+            font-weight: 800;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            user-select: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .stats-table th:hover {
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .stats-table th::after {
+            content: '↕';
+            margin-left: 5px;
+            opacity: 0.3;
+        }
+
+        .stats-table th.asc::after {
+            content: '↑';
+            opacity: 1;
+        }
+
+        .stats-table th.desc::after {
+            content: '↓';
+            opacity: 1;
+        }
+
+        .stats-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .stats-table tbody tr {
+            transition: background-color 0.3s ease;
+        }
+
+        .stats-table tbody tr:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .player-name {
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .team {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .stat-header {
+            text-align: center;
+        }
+
+        .stat-value {
+            text-align: center;
+            font-family: 'Montserrat', sans-serif;
+        }
+    </style>
+</head>
+<body>
+
+    {% include 'nhl/banner.html' %}
+
+    <div class="team-header">
+        <img src="https://assets.nhle.com/logos/nhl/svg/{{ team_abbrev }}_light.svg" class="team-logo">
+        <h1>{{ team_name }}</h1>
+    </div>
+    <div class="stats-container">
+        <table class="stats-table">
+            <thead>
+                <tr>
+                    <th data-sort="player">Player</th>
+                    <th class="stat-header" data-sort="games_played">GP</th>
+                    <th class="stat-header" data-sort="position">POS</th>
+                    <th class="stat-header" data-sort="points">P</th>
+                    <th class="stat-header" data-sort="goals">G</th>
+                    <th class="stat-header" data-sort="assists">A</th>
+                    <th class="stat-header" data-sort="shots">SOG</th>
+                    <th class="stat-header" data-sort="blocked_shots">BLK</th>
+                    <th class="stat-header" data-sort="toi">TOI</th>
+                    <th class="stat-header" data-sort="salary">Salary</th>
+                    <th class="stat-header" data-sort="ppg">PPG</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for player in players %}
+                <tr>
+                    <td class="player-name">{{ player.name }}</td>
+                    <td class="stat-value">{{ player.games_played }}</td>
+                    <td class="stat-value">{{ player.position }}</td>
+                    <td class="stat-value">{{ player.points }}</td>
+                    <td class="stat-value">{{ player.goals }}</td>
+                    <td class="stat-value">{{ player.assists }}</td>
+                    <td class="stat-value">{{ player.shots }}</td>
+                    <td class="stat-value">{{ player.blocked_shots }}</td>
+                    <td class="stat-value">{{ player.toi }}</td>
+                    <td class="stat-value">{{ player.salary }}</td>
+                    <td class="stat-value">{{ player.ppg }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const table = document.querySelector('.stats-table');
+            const headers = table.querySelectorAll('th');
+            const tbody = table.querySelector('tbody');
+            
+            // store original order
+            const originalRows = Array.from(tbody.querySelectorAll('tr'));
+            let currentSort = { column: null, state: 0 };
+
+            // function to convert cell content to comparable value
+            const getCellValue = (tr, idx) => {
+                const cell = tr.children[idx].innerText;
+
+                // try to convert to number, if not possible return original string
+                return isNaN(cell) ? cell.toLowerCase() : Number(cell);
+            };
+
+            // sorting function
+            const sortTable = (e) => {
+                const th = e.target;
+                const index = Array.from(th.parentElement.children).indexOf(th);
+                
+                // remove asc/desc classes from all headers
+                headers.forEach(header => {
+                    header.classList.remove('asc', 'desc');
+                });
+
+                // update sort state
+                if (currentSort.column === index) {
+                    currentSort.state = (currentSort.state + 1) % 3; // Cycle through 0,1,2
+                } else {
+                    currentSort.column = index;
+                    currentSort.state = 1; // Start with ascending
+                }
+
+                // handle sorting based on state
+                let rowsToShow;
+                if (currentSort.state === 0) {
+                    // revert to original order
+                    rowsToShow = [...originalRows];
+                } else {
+                    // sort the table
+                    rowsToShow = Array.from(tbody.querySelectorAll('tr')).sort((a, b) => {
+                        const aVal = getCellValue(a, index);
+                        const bVal = getCellValue(b, index);
+                        return (
+                            (aVal > bVal ? 1 : aVal < bVal ? -1 : 0)
+                            * (currentSort.state === 1 ? 1 : -1)
+                        );
+                    });
+                }
+
+                // add appropriate class to header
+                if (currentSort.state === 1) th.classList.add('asc');
+                if (currentSort.state === 2) th.classList.add('desc');
+
+                // update table
+                tbody.innerHTML = '';
+                tbody.append(...rowsToShow);
+            };
+
+            // add click event listeners to headers
+            headers.forEach(header => {
+                header.addEventListener('click', sortTable);
+            });
+        });
+    </script>
+</body>
+</html>

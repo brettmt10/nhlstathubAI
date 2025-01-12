@@ -20,10 +20,6 @@ from django.contrib import admin
 from django.urls import path
 from django.http import HttpResponse
 
-def front_page(request):
-    return HttpResponse("Welcome!")
-
 urlpatterns = [
-    path("hockey-teams/", include("nhl.urls")),
-    path("", front_page),
+    path("", include("nhl.urls")),
 ]
