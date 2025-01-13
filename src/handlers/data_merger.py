@@ -67,8 +67,12 @@ class DataMerger:
             
         return db
     
-    def create_player_merge_database_model(self) -> None:
-        """Merges salary data with player data into PostgreSQL database"""
+    def player_data_model_instance(self) -> dict:
+        """Return the data to create an instance for the player data db
+
+        Returns:
+            dict: Data needed to populate an instance of the player data model.
+        """
         db: dict[pd.DataFrame] = self.build_all_teams_player_database()
         
         for team in db:
@@ -94,21 +98,21 @@ class DataMerger:
                 toi: float = p_api.get('toi')
                 salary: int = salary
                 ppg: float = ppg
-            
-                p = PlayerData(name = player_name,
-                            team=team,
-                            position=position,
-                            games_played=games_played,
-                            points=points,
-                            goals=goals,
-                            assists=assists,
-                            shots=shots,
-                            blocked_shots=blocked_shots,
-                            toi=toi,
-                            salary=salary,
-                            ppg=ppg)
                 
-                p.save()
+                data = {}
+
+                data["position"] = position
+                data["games_played"] = games_played
+                data["points"] = points
+                data["goals"] = goals
+                data["assists"] = assists
+                data["shots"] = shots
+                data["blocked_shots"] = blocked_shots
+                data["toi"] = toi
+                data["salary"] = salary
+                data["ppg"] = ppg
+                
+                return data
         
     # deprecated   
     def merge_salaries_set_database(self) -> dict[pd.DataFrame]:
