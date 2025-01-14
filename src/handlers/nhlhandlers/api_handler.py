@@ -7,7 +7,7 @@ import pandas as pd
 import requests
 import logging
 
-import src.team_info as team_info
+import nhlhandlers.team_info as team_info
 from datetime import datetime
 import pytz
 from typing import Optional
