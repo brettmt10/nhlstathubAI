@@ -1,11 +1,11 @@
-from src.handlers.api_handler import NHLHandler
-from src.handlers.dk_handler import DraftKingsDataHandler
+from nhlhandlers.api_handler import NHLHandler
+from nhlhandlers.dk_handler import DraftKingsDataHandler
 
 import pandas as pd
 from typing import Optional
 
-import src.team_info as team_info
-from src.app.web.nhl.models import PlayerData
+import nhlhandlers.team_info as team_info
+# from src.app.web.nhl.models import PlayerData
 
 class DataMerger:
     """Merges draft kings data into nhl api player data and finalizes data sets for web app.
@@ -67,13 +67,14 @@ class DataMerger:
             
         return db
     
-    def player_data_model_instance(self) -> dict:
-        """Return the data to create an instance for the player data db
+    def player_data_model(self) -> list:
+        """Return the data of all players for the model.
 
         Returns:
-            dict: Data needed to populate an instance of the player data model.
+            dict: Data needed to populate the player data model.
         """
         db: dict[pd.DataFrame] = self.build_all_teams_player_database()
+        all_players = []
         
         for team in db:
             for player in db[team].iterrows():
@@ -88,6 +89,8 @@ class DataMerger:
                     salary = 0
                     ppg = 0
                 
+                name: str = player_name
+                team: str = team
                 position: str = p_api.get('position')
                 games_played: int = p_api.get('games_played')
                 points: int = p_api.get('points')
@@ -101,6 +104,8 @@ class DataMerger:
                 
                 data = {}
 
+                data["name"] = name
+                data["team"] = team
                 data["position"] = position
                 data["games_played"] = games_played
                 data["points"] = points
@@ -112,7 +117,11 @@ class DataMerger:
                 data["salary"] = salary
                 data["ppg"] = ppg
                 
-                return data
+                all_players.append(data)
+                
+        return all_players
+                
+                
         
     # deprecated   
     def merge_salaries_set_database(self) -> dict[pd.DataFrame]:
