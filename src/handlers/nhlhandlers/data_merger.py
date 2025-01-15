@@ -67,11 +67,12 @@ class DataMerger:
             
         return db
     
-    def player_data_model(self) -> list:
-        """Return the data of all players for the model.
+    def player_data_model_all(self) -> list[dict]:
+        """Gets every player in the league's updated data and merges with draftkings data.
 
         Returns:
-            dict: Data needed to populate the player data model.
+            list: A list containing dictionaries of each player's stats, 
+                  reflecting the Django model.
         """
         db: dict[pd.DataFrame] = self.build_all_teams_player_database()
         all_players = []
@@ -121,8 +122,6 @@ class DataMerger:
                 
         return all_players
                 
-                
-        
     # deprecated   
     def merge_salaries_set_database(self) -> dict[pd.DataFrame]:
         """Merge the draftkings player/salary database from date, and merges the salary values into
