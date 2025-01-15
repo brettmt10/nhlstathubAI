@@ -12,9 +12,12 @@ class NHLData(DataMerger):
     def __init__(self, date: Optional[str] = None):
         super().__init__(date=date)
     
-    def get_db_data(self) -> None:
-        """Get player model instance
+    def get_db_data(self) -> list[dict]:
+        """Get all player data with Django PlayerData model specs.
+
+        Returns:
+            list[dict]: A list with each player's dictionary of nhl and draftkings stats.
         """
-        return self.player_data_model()
+        return self.player_data_model_all()
     
     

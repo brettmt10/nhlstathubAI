@@ -292,6 +292,11 @@ class NHLTeamsHandler:
         return(self.all_teams)
         
     def build_all_teams(self) -> dict:
+        """Goes through all teams metadata from NHL's api and grabs relevant keys.
+
+        Returns:
+            dict: A dictionary with each team's name as keys and abbreviation as values.
+        """
         teams: dict = {}
         for team in self.all_teams_metadata:
             # bug in utah's name
@@ -308,10 +313,12 @@ class NHLTeamsHandler:
         self.all_teams: dict = self.build_all_teams()
         
     def nhl_all_teams(self) -> list[dict]:
-        """User function to get a list of all teams
+        """User function to get a list of all teams.
 
         Returns:
-            list[str]: _description_
+            list[str]: A list containing the team dictionaries,
+                       following this format: {team_name: team_abbrev}.
+                       
         """
         self.set_all_teams()
         return(self.__get_all_teams())
