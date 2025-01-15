@@ -8,11 +8,11 @@ from nhl.static import teams_abbrev
 ta = teams_abbrev.teams_abbrev
 
 def hockey_teams_menu(request):
-    template = loader.get_template("templates/nhl/index.html")
+    template = loader.get_template("nhl/index.html")
     return HttpResponse(template.render(request=request))
 
 def team_data(request, team_abbrev):
     players = PlayerData.objects.filter(team=str(team_abbrev))
     context = {'players': players, 'team_abbrev': str(team_abbrev), 'team_name': str(ta.get(str(team_abbrev)))}
-    template = loader.get_template("templates/nhl/team_data.html")
+    template = loader.get_template("nhl/team_data.html")
     return HttpResponse(template.render(context, request))
