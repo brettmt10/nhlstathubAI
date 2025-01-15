@@ -31,7 +31,6 @@ class Command(BaseCommand):
             print("got all the players for today!")
         except Exception as e:
             print(e)
-            pass
 
 
 
