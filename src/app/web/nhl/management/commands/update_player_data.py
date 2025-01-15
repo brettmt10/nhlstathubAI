@@ -9,7 +9,7 @@ class Command(BaseCommand):
         try:
             PlayerData.objects.all().delete()
             d = NHLData()
-            all_players = d.get_db_data_test()
+            all_players = d.get_db_data()
             
             for player in all_players:
                 
