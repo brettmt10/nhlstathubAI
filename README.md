@@ -1,4 +1,5 @@
 # nhl-dfs
+# https://nhlstathub.pythonanywhere.com/
 A lightweight web application for easy viewing of relevant NHL player data and DFS data.
 
 ### What makes this web app special?
