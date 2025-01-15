@@ -185,7 +185,7 @@ class NHLScheduleHandler():
             away_team: dict = game.get("away_team")
             home_team: dict = game.get("home_team")
             
-            print(f"Game {idx + 1}: {away_team["full_name"]} vs {home_team["full_name"]}. Starts at {game["start_time"]}.")
+            print(f'Game {idx + 1}: {away_team["full_name"]} vs {home_team["full_name"]}. Starts at {game["start_time"]}.')
             print('---')
 
 class NHLPlayerDataHandler(NHLScheduleHandler):
