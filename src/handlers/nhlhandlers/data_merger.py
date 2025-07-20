@@ -26,6 +26,7 @@ class DataMerger:
             self.available_player_salaries: pd.DataFrame = self.dk.available_player_salaries()
         except:
             print("No scheduled games today. Merger will not run.")
+            self.available_player_salaries: pd.DataFrame = pd.DataFrame(columns=['Name'])
             pass
         
         self.all_teams: list[str] = self.nhl.teams_handler.nhl_all_teams()
