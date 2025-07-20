@@ -23,7 +23,7 @@ class NHLScheduleHandler():
     def __init__(self, client: NHLClient, date: Optional[str] = datetime.today().strftime('%Y-%m-%d')):
         self.client: NHLClient = client
         self.day: str = date
-        self.schedule_metadata: dict = self.client.schedule.get_schedule(date=self.day).get('games') # dict of schedule information
+        self.schedule_metadata: dict = self.client.schedule.daily_schedule(date=self.day).get('games') # dict of schedule information
         
         if not self.schedule_metadata:
             raise ValueError(f"No games on date {self.day}")
@@ -286,7 +286,7 @@ class NHLTeamsHandler:
     def __init__(self, client: NHLClient):
         self.client = client
         self.all_teams: dict = {}
-        self.all_teams_metadata: list[dict] = self.client.teams.teams_info()
+        self.all_teams_metadata: list[dict] = self.client.teams.teams()
 
     def __get_all_teams(self) -> dict:
         return(self.all_teams)
