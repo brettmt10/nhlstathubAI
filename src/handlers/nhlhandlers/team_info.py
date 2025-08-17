@@ -223,10 +223,10 @@ teams = {
         'id': '35',
         'abbreviation': 'WPG'
     },
-    'Hockey Club': {
+    'Mammoth': {
         'city': 'Utah',
-        'name': 'Hockey Club',
-        'full_name': 'Utah Hockey Club',
+        'name': 'Mammoth',
+        'full_name': 'Utah Mammoth',
         'id': '40',
         'abbreviation': 'UTA'
     }
