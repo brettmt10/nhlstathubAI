@@ -6,13 +6,6 @@ teams = {
         'id': '32',
         'abbreviation': 'ANA'
     },
-    'Coyotes': {
-        'city': 'Arizona',
-        'name': 'Coyotes',
-        'full_name': 'Arizona Coyotes',
-        'id': '53',
-        'abbreviation': 'ARI'
-    },
     'Bruins': {
         'city': 'Boston',
         'name': 'Bruins',
