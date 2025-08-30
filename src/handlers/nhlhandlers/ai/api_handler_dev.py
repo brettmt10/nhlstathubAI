@@ -114,7 +114,6 @@ class NHLDataHandler(NHLClientHandler):
         return players_data
         
     def get_player_game_log(self, player_id: int, player_name: str):
-        # returns last 10
         game_log = self.client.stats.player_game_log(
             player_id=player_id, 
             season_id="20232024", 

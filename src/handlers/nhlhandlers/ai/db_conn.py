@@ -72,23 +72,44 @@ def player_game_log_refresh(engine):
     
     try:
         nhl_handler = NHLDataHandler()
+
+        with engine.begin() as connection:
+            connection.execute(text("TRUNCATE TABLE raw.player_game_log"))
+        
         query = "SELECT player_id, name FROM raw.player_info"
-        
-        
         df = pd.read_sql_query(query, engine)
-        
-        print(df)
+
         
         for index, row in df.iterrows():
-            print(f"getting game log for {row['name']}")
             player_id = row['player_id']
             player_name = row['name']
             
             l10 = nhl_handler.get_player_game_log(player_id, player_name)
+            l10 = l10[:10]  # keep only the first 10 games
+
             for game in l10:
-                print(game)
-            return
+                minutes, seconds = map(int, game['toi'].split(':'))
+                seconds_percent = round(seconds / 60, 2)
+                game['toi'] = minutes + seconds_percent
             
+            with engine.begin() as connection:
+                for game in l10:
+                    connection.execute(text("""
+                        INSERT INTO raw.player_game_log
+                        (player_id, player_name, home_road_flag, game_date, goals, assists, opponent_common_name, points, shots, toi)
+                        VALUES (:player_id, :player_name, :home_road_flag, :game_date, :goals, :assists, :opponent_common_name, :points, :shots, :toi)
+                    """), {
+                        'player_id': player_id,
+                        'player_name': player_name,
+                        'home_road_flag': game.get('homeRoadFlag'),
+                        'game_date': game.get('gameDate'),
+                        'goals': game.get('goals'),
+                        'assists': game.get('assists'),
+                        'opponent_common_name': game.get('opponentCommonName'),
+                        'points': game.get('points'),
+                        'shots': game.get('shots'),
+                        'toi': game.get('toi')
+                    })
             
     except Exception as e:
         print(f"Error processing player data: {e}")
@@ -99,6 +120,8 @@ def player_game_log_refresh(engine):
 if __name__ == "__main__":
     try:
         engine = db_conn()
+        # player_info_refresh(engine)
+        # team_player_data_refresh(engine)
         player_game_log_refresh(engine)
     except Exception as e:
         print(f"Connection or data insertion failed: {e}")
