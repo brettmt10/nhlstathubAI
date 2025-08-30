@@ -37,6 +37,7 @@ class NHLDataHandler(NHLClientHandler):
             pd.DataFrame: DataFrame containing player name + team abbrev
         """
         # Get current season roster
+        print(f"Requesting from API: team roster info for {team_abbrev}")
         roster_raw: Dict = self.client.teams.team_roster(team_abbr=team_abbrev, season="20252026")
         all_players = []
         for position_group in ['forwards', 'defensemen', 'goalies']:
@@ -80,12 +81,15 @@ class NHLDataHandler(NHLClientHandler):
         query_builder: QueryBuilder = QueryBuilder()
         query_context: QueryContext = query_builder.build(filters=filters)
 
+        
+        print(f"Requesting from API: skater summary stats for {team_abbrev}")
         team_player_data_summary: dict = self.client.stats.skater_stats_with_query_context(
             report_type='summary',
             query_context=query_context,
             aggregate=True            
         ).get('data')
         
+        print(f"Requesting from API: skater misc stats for {team_abbrev}")
         team_player_data_misc: dict = self.client.stats.skater_stats_with_query_context(
             report_type='realtime',
             query_context=query_context,
@@ -95,9 +99,9 @@ class NHLDataHandler(NHLClientHandler):
         players_data = []
         for pd_summary, pd_misc in zip(team_player_data_summary, team_player_data_misc):
             player_stats: dict = {
-                "id": pd_summary["playerId"],
-                "name": pd_summary["skaterFullName"],
-                "team": team_abbrev,
+                "player_id": pd_summary["playerId"],
+                "player_name": pd_summary["skaterFullName"],
+                "team_abbrev": team_abbrev,
                 "position": pd_summary["positionCode"],
                 "games_played": pd_summary["gamesPlayed"],
                 "points": pd_summary["points"],
