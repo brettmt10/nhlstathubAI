@@ -3,7 +3,7 @@ from sqlalchemy import create_engine, text
 import psycopg2
 import os
 from dotenv import load_dotenv
-from api_handler_dev import NHLDataHandler
+from nhl_cli import NHLDataHandler
 from team_info import teams
 
 load_dotenv()
