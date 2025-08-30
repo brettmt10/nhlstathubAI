@@ -1,4 +1,3 @@
-# nhl-dfs
 # https://nhlstathub.pythonanywhere.com/
 A lightweight web application, bringing together NHL stats and DraftKings data into one place.
 
