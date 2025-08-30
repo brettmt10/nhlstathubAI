@@ -5,8 +5,9 @@ from nhlpy.api.query.filters.season import SeasonQuery
 from nhlpy.api.query.filters.game_type import GameTypeQuery
 from nhlpy.api.query.builder import QueryBuilder, QueryContext
 from typing import Optional, Dict
-from sqlalchemy import text
 from team_info import teams
+import json
+from datetime import datetime
 
 class NHLClientHandler:
     """
@@ -111,3 +112,27 @@ class NHLDataHandler(NHLClientHandler):
             players_data.append(player_stats)
         
         return players_data
+        
+    def get_player_game_log(self, player_id: int, player_name: str):
+        # returns last 10
+        game_log = self.client.stats.player_game_log(
+            player_id=player_id, 
+            season_id="20232024", 
+            game_type=2  # Regular season
+        )
+        
+        return [
+            {
+            'player_id': player_id,
+            'player_name': player_name,
+            'homeRoadFlag': game['homeRoadFlag'],
+            'gameDate': game['gameDate'],
+            'goals': game['goals'],
+            'assists': game['assists'],
+            'opponentCommonName': game['opponentCommonName']['default'],
+            'points': game['points'],
+            'shots': game['shots'],
+            'toi': game['toi']
+            }
+            for game in game_log
+        ]

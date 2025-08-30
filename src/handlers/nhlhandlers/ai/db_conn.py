@@ -66,11 +66,39 @@ def team_player_data_refresh(engine):
                     """), player_stats)        
     except Exception as e:
         print(f"Team player data insertion failed for {team_abbrev}: {e}")
+        
+def player_game_log_refresh(engine):
+    engine = db_conn()
+    
+    try:
+        nhl_handler = NHLDataHandler()
+        query = "SELECT player_id, name FROM raw.player_info"
+        
+        
+        df = pd.read_sql_query(query, engine)
+        
+        print(df)
+        
+        for index, row in df.iterrows():
+            print(f"getting game log for {row['name']}")
+            player_id = row['player_id']
+            player_name = row['name']
+            
+            l10 = nhl_handler.get_player_game_log(player_id, player_name)
+            for game in l10:
+                print(game)
+            return
+            
+            
+    except Exception as e:
+        print(f"Error processing player data: {e}")
+    
+    finally:
+        engine.dispose()
 
 if __name__ == "__main__":
     try:
         engine = db_conn()
-        player_info_refresh(engine)
-        team_player_data_refresh(engine)
+        player_game_log_refresh(engine)
     except Exception as e:
         print(f"Connection or data insertion failed: {e}")
