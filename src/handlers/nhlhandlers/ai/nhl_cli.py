@@ -10,13 +10,13 @@ import json
 from datetime import datetime
 
 class NHLClientHandler:
-    """
-    Base handler class that provides a shared NHL client instance.
+    """ Base handler class that provides a shared NHL client instance.
     """
     _client = NHLClient()
    
     def __init__(self):
-        """Initialize the handler with access to the shared NHL client."""
+        """Initialize the handler with access to the shared NHL client.
+        """
         self.client = NHLClientHandler._client
 
 class NHLDataHandler(NHLClientHandler):
@@ -60,7 +60,7 @@ class NHLDataHandler(NHLClientHandler):
         roster_df = pd.DataFrame(players_data)
         return roster_df
     
-    def get_team_player_data(self, team_abbrev: str) -> list:        
+    def get_team_player_data(self, team_abbrev: str):        
         
         # Get franchise_id from team_info
         franchise_id = None
@@ -68,10 +68,7 @@ class NHLDataHandler(NHLClientHandler):
             if team_data['abbreviation'] == team_abbrev:
                 franchise_id = team_data['id']
                 break
-        
-        if not franchise_id:
-            raise ValueError(f"Team abbreviation {team_abbrev} not found")
-        
+            
         filters: list = [
             GameTypeQuery(game_type="2"),
             SeasonQuery(season_start="20242025", season_end="20242025"),
@@ -118,6 +115,7 @@ class NHLDataHandler(NHLClientHandler):
         return players_data
         
     def get_player_game_log(self, player_id: int, player_name: str):
+        print(f"Requesting from API: player game log for player ID: {player_id}")
         game_log = self.client.stats.player_game_log(
             player_id=player_id, 
             season_id="20242025", 
