@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
-from db_conn import NHLConnHandler
+from db_conn import NHLConnHandler, NBAConnHandler
 
 def engine_connect():
     load_dotenv()
@@ -18,14 +18,16 @@ def engine_connect():
     return engine
 
 def nhl_refresh(handler: NHLConnHandler):
-    handler.truncate_tables()
-    handler.player_info_refresh()
+    # handler.truncate_tables()
+    # handler.player_info_refresh()
     handler.team_player_data_refresh()
     
 engine = engine_connect()
-nhl = NHLConnHandler(engine = engine)
-nhl_refresh(nhl)
+# nhl = NHLConnHandler(engine = engine)
+# nhl_refresh(nhl)
 
-
-# nba = NBAConnHandler(engine = engine)
+    
+    
+nba = NBAConnHandler(engine = engine)
+nba.team_player_data_refresh()
 

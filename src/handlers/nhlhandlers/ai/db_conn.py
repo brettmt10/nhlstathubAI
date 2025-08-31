@@ -4,7 +4,9 @@ import psycopg2
 import os
 from dotenv import load_dotenv
 from nhl_cli import NHLDataHandler
-from team_info import teams
+from nba_cli import NBADataHandler
+from nhl_teams import teams
+from nba_teams import NBA_TEAMS
 
 class NHLConnHandler:
     def __init__(self, engine):
@@ -101,12 +103,76 @@ class NHLConnHandler:
         
         finally:
             self.engine.dispose()
-
-if __name__ == "__main__":
-    try:
-        nhl_conn = NHLConnHandler()
-        # nhl_conn.player_info_refresh()
-        # nhl_conn.team_player_data_refresh()
-        nhl_conn.player_game_log_refresh()
-    except Exception as e:
-        print(f"Connection or data insertion failed: {e}")
+            
+            
+class NBAConnHandler:
+    def __init__(self, engine):
+        self.engine = engine
+        self.nba_handler = NBADataHandler()
+        
+    def truncate_tables(self):
+        with self.engine.begin() as connection:
+            # connection.execute(text("TRUNCATE TABLE nbaraw.player_info"))
+            connection.execute(text("TRUNCATE TABLE nbaraw.player_data"))
+            # staged data should be views
+            
+    def player_info_refresh(self):
+        try:
+            with self.engine.begin() as connection:
+                connection.execute(text("TRUNCATE TABLE nbaraw.player_info"))
+            
+            for team_id in NBA_TEAMS.keys():
+                try:
+                    roster_df = self.nba_handler.get_team_roster(team_id)
+                    
+                    with self.engine.begin() as connection:
+                        for _, player in roster_df.iterrows():
+                            connection.execute(text("""
+                                INSERT INTO nbaraw.player_info 
+                                (player_id, player_name, position, team_abbrev)
+                                VALUES (:player_id, :player_name, :position, :team_abbreviation)
+                            """), {
+                                'player_id': player['PLAYER_ID'],
+                                'player_name': player['PLAYER'],
+                                'position': player['POSITION'],
+                                'team_abbreviation': player['TEAM_ABBREV']
+                            })
+                except Exception as e:
+                    print(f"Error processing team {team_id}: {e}")
+                    
+        except Exception as e:
+            print(f"Player info insertion failed: {e}")
+    
+    def team_player_data_refresh(self):
+        try:
+            with self.engine.begin() as connection:
+                connection.execute(text("TRUNCATE TABLE nbaraw.player_data"))
+            
+            for team_id in NBA_TEAMS.keys():
+                try:
+                    player_data = self.nba_handler.get_team_player_data(team_id)
+                    with self.engine.begin() as connection:
+                        for _, player in player_data.iterrows():
+                            connection.execute(text("""
+                                INSERT INTO nbaraw.player_data 
+                                (player_id, player_name, team_abbrev, games_played, points, rebounds, assists, turnovers, steals, blocks, minutes)
+                                VALUES (:player_id, :player_name, :team_abbrev, :games_played, :points, :rebounds, :assists, :turnovers, :steals, :blocks, :minutes)
+                            """), {
+                                'player_id': player['PLAYER_ID'],
+                                'player_name': player['PLAYER_NAME'],
+                                'team_abbrev': player['TEAM_ABBREV'],
+                                'games_played': player['GP'],
+                                'points': player['PTS'],
+                                'rebounds': player['REB'],
+                                'assists': player['AST'],
+                                'turnovers': player['TOV'],
+                                'steals': player['STL'],
+                                'blocks': player['BLK'],
+                                'minutes': player['MIN']
+                            })
+                except Exception as e:
+                    print(f"Error processing team {team_id}: {e}")
+                    
+        except Exception as e:
+            print(f"Team player data insertion failed: {e}")
+            

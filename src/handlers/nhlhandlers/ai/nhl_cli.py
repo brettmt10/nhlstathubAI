@@ -5,7 +5,7 @@ from nhlpy.api.query.filters.season import SeasonQuery
 from nhlpy.api.query.filters.game_type import GameTypeQuery
 from nhlpy.api.query.builder import QueryBuilder, QueryContext
 from typing import Optional, Dict
-from team_info import teams
+from nhl_teams import teams
 import json
 from datetime import datetime
 
@@ -120,7 +120,7 @@ class NHLDataHandler(NHLClientHandler):
     def get_player_game_log(self, player_id: int, player_name: str):
         game_log = self.client.stats.player_game_log(
             player_id=player_id, 
-            season_id="20232024", 
+            season_id="20242025", 
             game_type=2  # Regular season
         )
         
