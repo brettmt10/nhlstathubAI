@@ -54,7 +54,7 @@ GROUP BY b.player_id, b.player_name, b.team_abbrev, b.position;
 CREATE OR REPLACE VIEW nbastage.player_game_log AS (
 	SELECT
 		a.player_name,
-		b.player_id as current_team,
+		b.team_abbrev as current_team,
 		a.homevaway as matchup,
 		a.date as date,
 		a.points,
