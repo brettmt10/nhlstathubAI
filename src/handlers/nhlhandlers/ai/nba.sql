@@ -50,3 +50,18 @@ SELECT
 FROM nbaraw.player_data a
 RIGHT JOIN nbaraw.player_info b ON a.player_id = b.player_id
 GROUP BY b.player_id, b.player_name, b.team_abbrev, b.position;
+
+CREATE VIEW nbastage.player_game_log AS (
+	SELECT
+		player_name,
+		homevaway as Matchup,
+		date as date,
+		points,
+		rebounds,
+		assists,
+		turnovers,
+		steals,
+		blocks,
+		minutes
+	FROM nbaraw.player_game_log
+)
