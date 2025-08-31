@@ -1,2 +1,3 @@
 create_team_tables.sql
 drop_team_tables.sql
+.env
