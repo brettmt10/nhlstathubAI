@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS nbaraw.player_game_log (
     steals FLOAT,
     blocks FLOAT,
     minutes FLOAT
-)
+);
 
 CREATE VIEW nbastage.player_data AS
 SELECT 
@@ -51,17 +51,20 @@ FROM nbaraw.player_data a
 RIGHT JOIN nbaraw.player_info b ON a.player_id = b.player_id
 GROUP BY b.player_id, b.player_name, b.team_abbrev, b.position;
 
-CREATE VIEW nbastage.player_game_log AS (
+CREATE OR REPLACE VIEW nbastage.player_game_log AS (
 	SELECT
-		player_name,
-		homevaway as Matchup,
-		date as date,
-		points,
-		rebounds,
-		assists,
-		turnovers,
-		steals,
-		blocks,
-		minutes
-	FROM nbaraw.player_game_log
-)
+		a.player_name,
+		b.player_id as current_team,
+		a.homevaway as matchup,
+		a.date as date,
+		a.points,
+		a.rebounds,
+		a.assists,
+		a.turnovers,
+		a.steals,
+		a.blocks,
+		a.minutes
+	FROM nbaraw.player_game_log a
+	LEFT JOIN nbaraw.player_info b
+	ON a.player_id = b.player_id
+);
