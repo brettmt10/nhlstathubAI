@@ -65,31 +65,31 @@ class NHLConnHandler:
         The table includes player_id, player_name, team_abbrev, position, games_played, points, goals, assists, shots, blocked_shots, toi, salary, ppg.
         Iterates through each team and calls NHLDataHandler's team data method.  
         """
-        try:
-            with self.engine.begin() as connection:
-                for _, team_data in teams.items():
-                    players_data = None
-                    team_abbrev: str = team_data['abbreviation']
-                    players_data: list = self.nhl_handler.get_team_player_data(team_abbrev)
+        for _, team_data in teams.items():
+            try:
+                team_abbrev: str = team_data['abbreviation']
+                players_data: list = self.nhl_handler.get_team_player_data(team_abbrev)
+                with self.engine.begin() as connection:
                     for player_stats in players_data:
                         connection.execute(text(f"""
                             INSERT INTO nhlraw.player_data
                             (player_id, player_name, team_abbrev, position, games_played, points, goals, assists, shots, blocked_shots, toi, salary, ppg)
                             VALUES (:player_id, :player_name, :team_abbrev, :position, :games_played, :points, :goals, :assists, :shots, :blocked_shots, :toi, :salary, :ppg)
-                        """), player_stats)        
-        except Exception as e:
-            print(f"Team player data insertion failed for {team_abbrev}: {e}")
+                        """), player_stats)
+            except Exception as e:
+                print(f"Error fetching player data for team {team_abbrev}: {e}. Continuing to next team...")
+                continue
             
     def player_game_log_refresh(self):
         """Refreshes the nhlraw.player_game_log table.
         The table includes player_id, player_name, home_road_flag, game_date, goals, assists, opponent_common_name, points, shots, toi
         Iterates through each team and calls NHLDataHandler's player game log method.
         """
-        try:
-            query = "SELECT player_id, player_name FROM nhlraw.player_info"
-            df = pd.read_sql_query(query, self.engine)
-            
-            for _, row in df.iterrows():
+        query = "SELECT player_id, player_name FROM nhlraw.player_info"
+        df = pd.read_sql_query(query, self.engine)
+        
+        for _, row in df.iterrows():
+            try:
                 player_id: int = row['player_id']
                 player_name: str = row['player_name']
                 
@@ -119,11 +119,12 @@ class NHLConnHandler:
                             'points': game.get('points'),
                             'shots': game.get('shots'),
                             'toi': game.get('toi')
-                        })   
-        except Exception as e:
-            print(f"Error processing player data: {e}")
-        finally:
-            self.engine.dispose()
+                        })
+            except Exception as e:
+                print(f"Error fetching NHL player game log data: {e}. Continuing to next player...")
+                continue
+                
+        self.engine.dispose()
             
 class NBAConnHandler:
     """DB connection handler for NBA tables.

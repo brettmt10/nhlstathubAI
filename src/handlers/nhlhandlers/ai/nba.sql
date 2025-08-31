@@ -35,7 +35,8 @@ CREATE TABLE IF NOT EXISTS nbaraw.player_game_log (
 );
 
 CREATE VIEW nbastage.player_data AS
-SELECT 
+SELECT
+    b.player_id,
     b.player_name, 
     b.team_abbrev, 
     b.position,
@@ -49,10 +50,12 @@ SELECT
     SUM(CASE WHEN a.team_abbrev = b.team_abbrev THEN a.minutes ELSE 0 END) AS minutes
 FROM nbaraw.player_data a
 RIGHT JOIN nbaraw.player_info b ON a.player_id = b.player_id
+WHERE a.games_played IS NOT NULL
 GROUP BY b.player_id, b.player_name, b.team_abbrev, b.position;
 
 CREATE OR REPLACE VIEW nbastage.player_game_log AS (
 	SELECT
+        a.player_id,
 		a.player_name,
 		b.team_abbrev as current_team,
 		a.homevaway as matchup,
