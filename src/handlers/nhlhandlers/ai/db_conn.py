@@ -7,6 +7,7 @@ from nhl_cli import NHLDataHandler
 from nba_cli import NBADataHandler
 from nhl_teams import teams
 from nba_teams import NBA_TEAMS
+import time
 
 class NHLConnHandler:
     def __init__(self, engine):
@@ -113,7 +114,8 @@ class NBAConnHandler:
     def truncate_tables(self):
         with self.engine.begin() as connection:
             # connection.execute(text("TRUNCATE TABLE nbaraw.player_info"))
-            connection.execute(text("TRUNCATE TABLE nbaraw.player_data"))
+            # connection.execute(text("TRUNCATE TABLE nbaraw.player_data"))
+            connection.execute(text("TRUNCATE TABLE nbaraw.player_game_log"))
             # staged data should be views
             
     def player_info_refresh(self):
@@ -176,3 +178,41 @@ class NBAConnHandler:
         except Exception as e:
             print(f"Team player data insertion failed: {e}")
             
+            
+    def player_game_log_refresh(self):
+        try:
+            query = "SELECT player_id, player_name FROM nbaraw.player_info"
+            df = pd.read_sql_query(query, self.engine)
+            
+            for index, row in df.iterrows():
+                player_id = row['player_id']
+                player_name = row['player_name']
+                time.sleep(10)
+                l10 = self.nba_handler.get_player_game_log(player_id)
+                
+                with self.engine.begin() as connection:
+                    for _, game in l10.iterrows():
+                        connection.execute(text("""
+                            INSERT INTO nbaraw.player_game_log
+                            (player_id, player_name, homevaway, date, points, rebounds, assists, turnovers, steals, blocks, minutes)
+                            VALUES (:player_id, :player_name, :homevaway, :date, :points, :rebounds, :assists, :turnovers, :steals, :blocks, :minutes)
+                        """), {
+                            'player_id': game['PLAYER_ID'],
+                            'player_name': game['PLAYER_NAME'],
+                            'homevaway': game['MATCHUP'],
+                            'date': game['GAME_DATE'],
+                            'points': game['PTS'],
+                            'rebounds': game['REB'],
+                            'assists': game['AST'],
+                            'turnovers': game['TOV'],
+                            'steals': game['STL'],
+                            'blocks': game['BLK'],
+                            'minutes': game['MIN']
+                        })
+
+                
+        except Exception as e:
+            print(f"Error processing NBA player game log data: {e}")
+        
+        finally:
+            self.engine.dispose()

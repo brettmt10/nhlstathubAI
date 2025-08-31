@@ -1,6 +1,6 @@
 import pandas as pd
 from datetime import datetime
-from nba_api.stats.endpoints import TeamPlayerDashboard, CommonTeamRoster
+from nba_api.stats.endpoints import TeamPlayerDashboard, CommonTeamRoster, PlayerGameLogs
 from nba_teams import NBA_TEAMS
 
 class NBADataHandler:
@@ -17,3 +17,11 @@ class NBADataHandler:
         team_abbrev = NBA_TEAMS[team_id]['team_abbrev']
         data['TEAM_ABBREV'] = team_abbrev
         return data[['PLAYER_ID', 'PLAYER_NAME', 'TEAM_ABBREV', 'GP', 'PTS', 'REB', 'AST', 'TOV', 'STL', 'BLK', 'MIN']]
+    
+    def get_player_game_log(self, player_id):
+        data = PlayerGameLogs(player_id_nullable=player_id, last_n_games_nullable=10, season_nullable='2024-25')
+        data = data.get_data_frames()[0]
+        data = data[:10]
+        data = data[['PLAYER_ID', 'PLAYER_NAME', 'MATCHUP', 'GAME_DATE', 'PTS', 'REB', 'AST', 'TOV', 'STL', 'BLK', 'MIN']]
+        data['MIN'] = round(data['MIN'], 2)
+        return data
