@@ -6,3 +6,4 @@ test.ipynb
 .env
 node_modules
 serverdev.js
+scriptdev.js
