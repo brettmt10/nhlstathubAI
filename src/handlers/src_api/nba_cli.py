@@ -1,7 +1,7 @@
 import pandas as pd
 from datetime import datetime
 from nba_api.stats.endpoints import TeamPlayerDashboard, CommonTeamRoster, PlayerGameLogs
-from nba_teams import NBA_TEAMS
+from src_api.nba_teams import NBA_TEAMS
 
 class NBADataHandler:
     def get_team_roster(self, team_id):
