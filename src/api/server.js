@@ -1,9 +1,17 @@
 const express = require('express');
 const fs = require('fs');
 const app = express();
+const cors = require('cors')
 const { Pool } = require('pg');
 const PORT = process.env.PORT || 3000;
 require('dotenv').config({ path: '../../.env' });
+
+app.use(cors({
+  origin: 'http://localhost:8080',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
+}));
+
 
 const pool = new Pool({
   host: process.env.DB_HOST,
