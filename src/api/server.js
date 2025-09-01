@@ -17,6 +17,38 @@ const pool = new Pool({
   },
 });
 
+app.get('/api/nhl/teams', async (req, res) => {
+  try {
+    const team = req.query.team;
+
+    const result = await pool.query(`
+      SELECT
+      player_name,
+      position,
+      games_played,
+      points,
+      goals,
+      assists,
+      shots,
+      blocked_shots,
+      toi 
+      FROM nhlstage.player_data
+      WHERE team_abbrev = $1
+      ORDER BY player_name 
+    `, [team]);
+
+    res.json({
+      success: true,
+      count: result.rows.length,
+      players: result.rows
+    });
+
+    } catch (error) {
+    console.error('Database error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
