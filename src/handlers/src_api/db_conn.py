@@ -1,9 +1,9 @@
 import pandas as pd
 from sqlalchemy import text, Engine
-from nhl_cli import NHLDataHandler
-from nba_cli import NBADataHandler
-from nhl_teams import teams
-from nba_teams import NBA_TEAMS
+from src_api.nhl_cli import NHLDataHandler
+from src_api.nba_cli import NBADataHandler
+from src_api.nhl_teams import teams
+from src_api.nba_teams import NBA_TEAMS
 import time
 from typing import Any
 
