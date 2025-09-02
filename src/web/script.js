@@ -24,16 +24,21 @@ document.addEventListener('DOMContentLoaded', function() {
     const teamButtonsContainer = document.getElementById('team-buttons');
     
     teamButtonsContainer.addEventListener('click', function(event) {
-        if (event.target.tagName === 'BUTTON') {
-            const teamAbbrev = event.target.dataset.team;
+        const button = event.target.closest('button');
+        if (button) {
+            const teamAbbrev = button.dataset.team;
+            console.log("clicked")
             
-            handleTeamSelection(teamAbbrev);
+            window.location.href = `team.html?team=${teamAbbrev}`;
         }
     });
 });
 
+// shared script, this is for team.html
 async function handleTeamSelection(teamAbbrev) {
     const playerDisplay = document.getElementById('player-display');
+    
+    if (!playerDisplay) return; // don't do it if not on teams
     
     playerDisplay.innerHTML = '<p>Loading team data...</p>';
     
@@ -74,3 +79,13 @@ function displayPlayers(players) {
     
     playerDisplay.innerHTML = html;
 }
+
+// load data when team param exists
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const teamAbbrev = urlParams.get('team');
+    
+    if (teamAbbrev && document.getElementById('player-display')) {
+        handleTeamSelection(teamAbbrev);
+    }
+});

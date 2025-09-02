@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Team</title>
+</head>
+<body>
+    <div id="team-display"></div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const team = urlParams.get('team');
+        document.getElementById('team-display').textContent = team;
+    </script>
+</body>
+</html>
