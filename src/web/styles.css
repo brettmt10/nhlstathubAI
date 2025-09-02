@@ -1,0 +1,134 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@800&display=swap');
+
+.button-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.team-button {
+    font-family: 'Arial', sans-serif;
+    text-decoration: none;
+    display: flex;
+    width: 250px;
+    height: 200px;
+    background-color: rgba(51, 51, 51, 0.7);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    justify-self: center;
+    color: white;
+    font-weight: 800;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+}
+
+.team-button span {
+    position: relative;
+    z-index: 1;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+}
+
+.team-button:hover span {
+    opacity: 1;
+}
+
+.team-button::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0.55;
+    background-size: 150%;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: all 0.3s ease;
+    justify-items: center;
+}
+
+.team-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.15),
+        rgba(255, 255, 255, 0.05)
+    );
+    border-radius: 10px 10px 0 0;
+}
+
+.team-button:hover::after {
+    opacity: 1;
+    background-size: 170%;
+}
+
+.team-button:hover {
+    background-color: rgba(68, 68, 68, 0.8);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    transform: translateY(-2px);
+}
+
+.nhlana::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/ANA_light.svg'); }
+.nhlbos::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/BOS_light.svg'); }
+.nhlbuf::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/BUF_light.svg'); }
+.nhlcgy::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/CGY_light.svg'); }
+.nhlcar::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/CAR_light.svg'); }
+.nhlchi::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/CHI_light.svg'); }
+.nhlcol::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/COL_light.svg'); }
+.nhlcbj::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/CBJ_light.svg'); }
+.nhldal::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/DAL_light.svg'); }
+.nhldet::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/DET_light.svg'); }
+.nhledm::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/EDM_light.svg'); }
+.nhlfla::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/FLA_light.svg'); }
+.nhllak::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/LAK_light.svg'); }
+.nhlmin::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/MIN_light.svg'); }
+.nhlmtl::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/MTL_light.svg'); }
+.nhlnsh::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/NSH_light.svg'); }
+.nhlnjd::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/NJD_light.svg'); }
+.nhlnyi::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/NYI_light.svg'); }
+.nhlnyr::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/NYR_light.svg'); }
+.nhlott::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/OTT_light.svg'); }
+.nhlphi::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/PHI_light.svg'); }
+.nhlpit::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/PIT_light.svg'); }
+.nhlsjs::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/SJS_light.svg'); }
+.nhlsea::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/SEA_light.svg'); }
+.nhlstl::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/STL_light.svg'); }
+.nhltbl::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/TBL_light.svg'); }
+.nhltor::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/TOR_light.svg'); }
+.nhluta::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/UTA_light.svg'); }
+.nhlvan::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/VAN_light.svg'); }
+.nhlvgk::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/VGK_light.svg'); }
+.nhlwsh::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/WSH_light.svg'); }
+.nhlwpg::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/WPG_light.svg'); }
+
+body {
+    background: #1a1a1a;
+    margin: 0;
+    min-height: 100vh;
+    padding: 20px;
+}
