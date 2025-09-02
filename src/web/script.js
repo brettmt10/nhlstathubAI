@@ -70,11 +70,11 @@ async function handleTeamSelection(teamAbbrev, league = 'nhl') {
 function NHLDisplayPlayers(players, team_abbrev) {
     const playerDisplay = document.getElementById('player-display');
     
-    let html = '<div class="stats-container">';
-    html += '<div class="team-header">';
+    let html = '<div class="team-header">';
     html += `<img src="static/nhl/${team_abbrev}_light.svg" class="team-logo">`;
     html += `<h1>${team_abbrev}</h1>`;
     html += '</div>';
+    html += '<div class="stats-container">';
     
     if (players.length === 0) {
         html += '<p>No players found for this team.</p>';
@@ -117,11 +117,11 @@ function NHLDisplayPlayers(players, team_abbrev) {
 function NBADisplayPlayers(players, team_abbrev) {
     const playerDisplay = document.getElementById('player-display');
 
-    let html = '<div class="stats-container">';
-    html += '<div class="team-header">';
+    let html = '<div class="team-header">';
     html += `<img src="static/nba/${team_abbrev}_light.svg" class="team-logo">`;
     html += `<h1>${team_abbrev}</h1>`;
     html += '</div>';
+    html += '<div class="stats-container">';
 
     if (players.length === 0) {
         html += '<p>No players found for this team.</p>';
