@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const teamAbbrev = button.dataset.team;
                 console.log("clicked", teamAbbrev, league);
                 
-                window.location.href = `team.html?team=${teamAbbrev}&league=${league}`;
+                window.location.href = `/team?team=${teamAbbrev}&league=${league}`;
             }
         });
     }
@@ -53,8 +53,6 @@ async function handleTeamSelection(teamAbbrev, league = 'nhl') {
     
     if (!playerDisplay) return; // don't do it if not on teams
     
-    playerDisplay.innerHTML = '<p>Loading team data...</p>';
-    
     const players = await fetchTeamPlayers(teamAbbrev, league);
     
     if (players === null) {
@@ -62,10 +60,14 @@ async function handleTeamSelection(teamAbbrev, league = 'nhl') {
         return;
     }
     
-    displayPlayers(players);
+    if (league === 'nhl') {
+        NHLDisplayPlayers(players);
+    } else {
+        NBADisplayPlayers(players);
+    }
 }
 
-function displayPlayers(players) {
+function NHLDisplayPlayers(players) {
     const playerDisplay = document.getElementById('player-display');
     
     let html = '<div class="stats-container">';
@@ -82,6 +84,9 @@ function displayPlayers(players) {
         html += '<th class="stat-header">Points</th>';
         html += '<th class="stat-header">Goals</th>';
         html += '<th class="stat-header">Assists</th>';
+        html += '<th class="stat-header">Shots</th>';
+        html += '<th class="stat-header">Blocked Shots</th>';
+        html += '<th class="stat-header">TOI</th>';
         html += '</tr></thead>';
         html += '<tbody>';
         
@@ -93,6 +98,55 @@ function displayPlayers(players) {
             html += `<td class="stat-value">${player.points}</td>`;
             html += `<td class="stat-value">${player.goals}</td>`;
             html += `<td class="stat-value">${player.assists}</td>`;
+            html += `<td class="stat-value">${player.shots}</td>`;
+            html += `<td class="stat-value">${player.blocked_shots}</td>`;
+            html += `<td class="stat-value">${player.toi}</td>`;
+            html += '</tr>';
+        });
+        
+        html += '</tbody></table>';
+    }
+    
+    html += '</div>';
+    playerDisplay.innerHTML = html;
+}
+
+function NBADisplayPlayers(players) {
+    const playerDisplay = document.getElementById('player-display');
+    
+    let html = '<div class="stats-container">';
+    html += '<h2>Team Players</h2>';
+    
+    if (players.length === 0) {
+        html += '<p>No players found for this team.</p>';
+    } else {
+        html += '<table class="stats-table">';
+        html += '<thead><tr>';
+        html += '<th class="player-name">Player Name</th>';
+        html += '<th class="stat-header">Position</th>';
+        html += '<th class="stat-header">Games Played</th>';
+        html += '<th class="stat-header">Points</th>';
+        html += '<th class="stat-header">Rebounds</th>';
+        html += '<th class="stat-header">Assists</th>';
+        html += '<th class="stat-header">Steals</th>';
+        html += '<th class="stat-header">Blocks</th>';
+        html += '<th class="stat-header">Turnovers</th>';
+        html += '<th class="stat-header">Minutes</th>';
+        html += '</tr></thead>';
+        html += '<tbody>';
+        
+        players.forEach(player => {
+            html += '<tr>';
+            html += `<td class="player-name">${player.player_name}</td>`;
+            html += `<td class="stat-value">${player.position}</td>`;
+            html += `<td class="stat-value">${player.games_played}</td>`;
+            html += `<td class="stat-value">${player.points}</td>`;
+            html += `<td class="stat-value">${player.rebounds}</td>`;
+            html += `<td class="stat-value">${player.assists}</td>`;
+            html += `<td class="stat-value">${player.steals}</td>`;
+            html += `<td class="stat-value">${player.blocks}</td>`;
+            html += `<td class="stat-value">${player.turnovers}</td>`;
+            html += `<td class="stat-value">${player.minutes}</td>`;
             html += '</tr>';
         });
         
