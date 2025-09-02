@@ -1,16 +1,40 @@
 const express = require('express');
 const fs = require('fs');
+const path = require('path');
 const app = express();
 const cors = require('cors')
 const { Pool } = require('pg');
 const PORT = process.env.PORT || 3000;
 require('dotenv').config({ path: '../../.env' });
 
-app.use(cors({
-  origin: 'http://localhost:8080',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true
-}));
+// Set EJS as view engine
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, '../web'));
+
+// app.use(cors({
+//   origin: 'http://localhost:8080',
+//   methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//   credentials: true
+// }));
+
+// Serve static files
+app.use(express.static(path.join(__dirname, '../web')));
+
+app.get('/', (req, res) => {
+  res.render('index');
+});
+
+app.get('/nhl', (req, res) => {
+  res.render('nhl');
+});
+
+app.get('/nba', (req, res) => {
+  res.render('nba');
+});
+
+app.get('/team', (req, res) => {
+  res.render('team');
+});
 
 
 const pool = new Pool({
@@ -41,6 +65,38 @@ app.get('/api/nhl/teams', async (req, res) => {
       blocked_shots,
       toi 
       FROM nhlstage.player_data
+      WHERE team_abbrev = $1
+      ORDER BY player_name 
+    `, [team]);
+
+    res.json({
+      success: true,
+      count: result.rows.length,
+      players: result.rows
+    });
+
+    } catch (error) {
+    console.error('Database error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.get('/api/nba/teams', async (req, res) => {
+  try {
+    const team = req.query.team;
+
+    const result = await pool.query(`
+      SELECT
+      player_name,
+      position,
+      games_played,
+      points,
+      rebounds, 
+      assists,
+      steals,
+      blocks,
+      minutes 
+      FROM nbastage.player_data
       WHERE team_abbrev = $1
       ORDER BY player_name 
     `, [team]);
