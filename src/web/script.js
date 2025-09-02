@@ -61,17 +61,20 @@ async function handleTeamSelection(teamAbbrev, league = 'nhl') {
     }
     
     if (league === 'nhl') {
-        NHLDisplayPlayers(players);
+        NHLDisplayPlayers(players, teamAbbrev);
     } else {
-        NBADisplayPlayers(players);
+        NBADisplayPlayers(players, teamAbbrev);
     }
 }
 
-function NHLDisplayPlayers(players) {
+function NHLDisplayPlayers(players, team_abbrev) {
     const playerDisplay = document.getElementById('player-display');
     
     let html = '<div class="stats-container">';
-    html += '<h2>Team Players</h2>';
+    html += '<div class="team-header">';
+    html += `<img src="static/nhl/${team_abbrev}_light.svg" class="team-logo">`;
+    html += `<h1>${team_abbrev}</h1>`;
+    html += '</div>';
     
     if (players.length === 0) {
         html += '<p>No players found for this team.</p>';
@@ -111,12 +114,15 @@ function NHLDisplayPlayers(players) {
     playerDisplay.innerHTML = html;
 }
 
-function NBADisplayPlayers(players) {
+function NBADisplayPlayers(players, team_abbrev) {
     const playerDisplay = document.getElementById('player-display');
-    
+
     let html = '<div class="stats-container">';
-    html += '<h2>Team Players</h2>';
-    
+    html += '<div class="team-header">';
+    html += `<img src="static/nba/${team_abbrev}_light.svg" class="team-logo">`;
+    html += `<h1>${team_abbrev}</h1>`;
+    html += '</div>';
+
     if (players.length === 0) {
         html += '<p>No players found for this team.</p>';
     } else {
