@@ -93,6 +93,90 @@
     transform: translateY(-2px);
 }
 
+.league-button {
+    font-family: 'Arial', sans-serif;
+    text-decoration: none;
+    display: flex;
+    width: 250px;
+    height: 200px;
+    background-color: rgba(51, 51, 51, 0.7);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    justify-self: center;
+    color: white;
+    font-weight: 800;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+}
+
+.league-button span {
+    position: relative;
+    z-index: 1;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+}
+
+.league-button:hover span {
+    opacity: 1;
+}
+
+.league-button::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0.55;
+    background-size: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: all 0.3s ease;
+    justify-items: center;
+}
+
+.league-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.15),
+        rgba(255, 255, 255, 0.05)
+    );
+    border-radius: 10px 10px 0 0;
+}
+
+.league-button:hover::after {
+    opacity: 1;
+    background-size: 120%;
+}
+
+.league-button:hover {
+    background-color: rgba(68, 68, 68, 0.8);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    transform: translateY(-2px);
+}
+
 /* team tables */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@800&display=swap');
 
@@ -216,7 +300,7 @@
 
 
 
-
+.nba::after { background-image: url('https://cdn.nba.com/logos/leagues/logo-nba.svg'); }
 
 
 .nhl::after { background-image: url('https://media.d3.nhle.com/image/private/t_q-best/prd/assets/nhl/logos/nhl_shield_on_dark_kl1omz'); }
