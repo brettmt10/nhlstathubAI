@@ -219,7 +219,7 @@
 
 
 
-
+.nhl::after { background-image: url('https://media.d3.nhle.com/image/private/t_q-best/prd/assets/nhl/logos/nhl_shield_on_dark_kl1omz'); }
 .nhlana::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/ANA_light.svg'); }
 .nhlbos::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/BOS_light.svg'); }
 .nhlbuf::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/BUF_light.svg'); }
