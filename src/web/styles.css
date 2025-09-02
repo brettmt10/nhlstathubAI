@@ -301,41 +301,41 @@
 
 
 .nba::after { background-image: url('https://cdn.nba.com/logos/leagues/logo-nba.svg'); }
+.nbabos::after { background-image: url('https://cdn.nba.com/teams/uploads/sites/1610612738/2025/05/CelticsSecondary_1999-now_KO.svg'); }
 
-
-.nhl::after { background-image: url('https://media.d3.nhle.com/image/private/t_q-best/prd/assets/nhl/logos/nhl_shield_on_dark_kl1omz'); }
-.nhlana::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/ANA_light.svg'); }
-.nhlbos::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/BOS_light.svg'); }
-.nhlbuf::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/BUF_light.svg'); }
-.nhlcgy::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/CGY_light.svg'); }
-.nhlcar::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/CAR_light.svg'); }
-.nhlchi::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/CHI_light.svg'); }
-.nhlcol::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/COL_light.svg'); }
-.nhlcbj::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/CBJ_light.svg'); }
-.nhldal::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/DAL_light.svg'); }
-.nhldet::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/DET_light.svg'); }
-.nhledm::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/EDM_light.svg'); }
-.nhlfla::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/FLA_light.svg'); }
-.nhllak::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/LAK_light.svg'); }
-.nhlmin::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/MIN_light.svg'); }
-.nhlmtl::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/MTL_light.svg'); }
-.nhlnsh::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/NSH_light.svg'); }
-.nhlnjd::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/NJD_light.svg'); }
-.nhlnyi::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/NYI_light.svg'); }
-.nhlnyr::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/NYR_light.svg'); }
-.nhlott::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/OTT_light.svg'); }
-.nhlphi::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/PHI_light.svg'); }
-.nhlpit::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/PIT_light.svg'); }
-.nhlsjs::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/SJS_light.svg'); }
-.nhlsea::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/SEA_light.svg'); }
-.nhlstl::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/STL_light.svg'); }
-.nhltbl::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/TBL_light.svg'); }
-.nhltor::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/TOR_light.svg'); }
-.nhluta::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/UTA_light.svg'); }
-.nhlvan::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/VAN_light.svg'); }
-.nhlvgk::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/VGK_light.svg'); }
-.nhlwsh::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/WSH_light.svg'); }
-.nhlwpg::after { background-image: url('https://assets.nhle.com/logos/nhl/svg/WPG_light.svg'); }
+.nhl::after { background-image: url('static/nhl_shield.svg'); }
+.nhlana::after { background-image: url('static/ANA_light.svg'); }
+.nhlbos::after { background-image: url('static/BOS_light.svg'); }
+.nhlbuf::after { background-image: url('static/BUF_light.svg'); }
+.nhlcgy::after { background-image: url('static/CGY_light.svg'); }
+.nhlcar::after { background-image: url('static/CAR_light.svg'); }
+.nhlchi::after { background-image: url('static/CHI_light.svg'); }
+.nhlcol::after { background-image: url('static/COL_light.svg'); }
+.nhlcbj::after { background-image: url('static/CBJ_light.svg'); }
+.nhldal::after { background-image: url('static/DAL_light.svg'); }
+.nhldet::after { background-image: url('static/DET_light.svg'); }
+.nhledm::after { background-image: url('static/EDM_light.svg'); }
+.nhlfla::after { background-image: url('static/FLA_light.svg'); }
+.nhllak::after { background-image: url('static/LAK_light.svg'); }
+.nhlmin::after { background-image: url('static/MIN_light.svg'); }
+.nhlmtl::after { background-image: url('static/MTL_light.svg'); }
+.nhlnsh::after { background-image: url('static/NSH_light.svg'); }
+.nhlnjd::after { background-image: url('static/NJD_light.svg'); }
+.nhlnyi::after { background-image: url('static/NYI_light.svg'); }
+.nhlnyr::after { background-image: url('static/NYR_light.svg'); }
+.nhlott::after { background-image: url('static/OTT_light.svg'); }
+.nhlphi::after { background-image: url('static/PHI_light.svg'); }
+.nhlpit::after { background-image: url('static/PIT_light.svg'); }
+.nhlsjs::after { background-image: url('static/SJS_light.svg'); }
+.nhlsea::after { background-image: url('static/SEA_light.svg'); }
+.nhlstl::after { background-image: url('static/STL_light.svg'); }
+.nhltbl::after { background-image: url('static/TBL_light.svg'); }
+.nhltor::after { background-image: url('static/TOR_light.svg'); }
+.nhluta::after { background-image: url('static/UTA_light.svg'); }
+.nhlvan::after { background-image: url('static/VAN_light.svg'); }
+.nhlvgk::after { background-image: url('static/VGK_light.svg'); }
+.nhlwsh::after { background-image: url('static/WSH_light.svg'); }
+.nhlwpg::after { background-image: url('static/WPG_light.svg'); }
 
 body {
     background: #1a1a1a;
