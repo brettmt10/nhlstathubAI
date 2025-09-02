@@ -301,7 +301,36 @@
 
 
 .nba::after { background-image: url('https://cdn.nba.com/logos/leagues/logo-nba.svg'); }
-.nbabos::after { background-image: url('https://cdn.nba.com/teams/uploads/sites/1610612738/2025/05/CelticsSecondary_1999-now_KO.svg'); }
+.nbaatl::after { background-image: url('static/hawks_light.svg'); }
+.nbabos::after { background-image: url('static/celtics_light.svg'); }
+.nbabkn::after { background-image: url('static/nets_light.svg'); }
+.nbacha::after { background-image: url('static/hornets_light.svg'); }
+.nbachi::after { background-image: url('static/bulls_light.svg'); }
+.nbacle::after { background-image: url('static/cavs_light.svg'); }
+.nbadal::after { background-image: url('static/mavs_light.svg'); }
+.nbaden::after { background-image: url('static/nuggets_light.svg'); }
+.nbadet::after { background-image: url('static/pistons_light.svg'); }
+.nbagsw::after { background-image: url('static/warriors_light.svg'); }
+.nbahou::after { background-image: url('static/rockets_light.svg'); }
+.nbaind::after { background-image: url('static/pacers_light.svg'); }
+.nbalac::after { background-image: url('static/clippers_light.svg'); }
+.nbalal::after { background-image: url('static/lakers_light.svg'); }
+.nbamem::after { background-image: url('static/grizzlies_light.svg'); }
+.nbamia::after { background-image: url('static/heat_light.svg'); }
+.nbamil::after { background-image: url('static/bucks_light.svg'); }
+.nbamin::after { background-image: url('static/wolves_light.svg'); }
+.nbanop::after { background-image: url('static/pelicans_light.svg'); }
+.nbanyk::after { background-image: url('static/knicks_light.svg'); }
+.nbaokc::after { background-image: url('static/thunder_light.svg'); }
+.nbaorl::after { background-image: url('static/magic_light.svg'); }
+.nbaphi::after { background-image: url('static/sixers_light.svg'); }
+.nbaphx::after { background-image: url('static/suns_light.svg'); }
+.nbapor::after { background-image: url('static/blazers_light.svg'); }
+.nbasac::after { background-image: url('static/kings_light.svg'); }
+.nbasas::after { background-image: url('static/spurs_light.svg'); }
+.nbator::after { background-image: url('static/raptors_light.svg'); }
+.nbauta::after { background-image: url('static/jazz_light.svg'); }
+.nbawas::after { background-image: url('static/wizards_light.svg'); }
 
 .nhl::after { background-image: url('static/nhl_shield.svg'); }
 .nhlana::after { background-image: url('static/ANA_light.svg'); }
