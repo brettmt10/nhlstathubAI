@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Team</title>
+    <title>Team Players</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-    <div id="team-display"></div>
+<body class='team-body'>
+    <div id="player-display">
+        <p>Loading team data...</p>
+    </div>
 
-    <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const team = urlParams.get('team');
-        document.getElementById('team-display').textContent = team;
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>

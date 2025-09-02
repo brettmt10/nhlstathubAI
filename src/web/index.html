@@ -1,17 +1,44 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>NHL Teams</title>
+    <title>StatHub AI - Sports Statistics</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .homepage-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: #1a1a1a;
+            color: white;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        .homepage-title {
+            text-align: center;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 50px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            font-size: 3rem;
+        }
+        
+    </style>
 </head>
-<body>
-    <div id="team-buttons" class="button-grid">
-        <button data-team="BOS" class="team-button nhlbos"><span>Boston Bruins</span></button>
-        <button data-team="NYR" class="team-button nhlnyr"><span>New York Rangers</span></button>
-        <button data-team="TOR" class="team-button nhltor"><span>Toronto Maple Leafs</span></button>
-        <button data-team="MTL" class="team-button nhlmtl"><span>Montreal Canadiens</span></button>
+<body>        
+    <div class="button-grid">
+        <a href="nhl.html" class = 'league-button nhl'>
+            <span>NHL</span>
+        </a>
+        
+        <a href="nba.html" class = 'league-button nba'>
+            <span>NBA</span>
+        </a>
     </div>
 
-    <script src="script.js"></script>
 </body>
 </html>
