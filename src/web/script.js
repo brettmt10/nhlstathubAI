@@ -130,6 +130,7 @@ function NBADisplayPlayers(players) {
         html += '<th class="stat-header">Assists</th>';
         html += '<th class="stat-header">Steals</th>';
         html += '<th class="stat-header">Blocks</th>';
+        html += '<th class="stat-header">Turnovers</th>';
         html += '<th class="stat-header">Minutes</th>';
         html += '</tr></thead>';
         html += '<tbody>';
@@ -144,6 +145,7 @@ function NBADisplayPlayers(players) {
             html += `<td class="stat-value">${player.assists}</td>`;
             html += `<td class="stat-value">${player.steals}</td>`;
             html += `<td class="stat-value">${player.blocks}</td>`;
+            html += `<td class="stat-value">${player.turnovers}</td>`;
             html += `<td class="stat-value">${player.minutes}</td>`;
             html += '</tr>';
         });
