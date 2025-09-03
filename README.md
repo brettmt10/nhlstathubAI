@@ -5,5 +5,4 @@
 
 [Check out the release notes! Big Upgrades!](https://github.com/brettmt10/stathubAI/releases/tag/v2)
 
-![image](https://github.com/user-attachments/assets/291d881d-e817-4528-8894-aa458a145204)
-
+![image](https://github.com/user-attachments/assets/f2035170-9d60-4841-bb82-0c956854c587)
