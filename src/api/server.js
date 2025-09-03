@@ -5,7 +5,10 @@ const app = express();
 const cors = require('cors')
 const { Pool } = require('pg');
 const PORT = process.env.PORT || 3000;
-require('dotenv').config({ path: '../../.env' });
+// Load environment variables - only in development
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config({ path: '../../.env' });
+}
 
 // Set EJS as view engine
 app.set('view engine', 'ejs');
