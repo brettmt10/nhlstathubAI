@@ -1,0 +1,36 @@
+services:
+  - type: web
+    name: stathubai
+    runtime: node
+    buildCommand: cd src/api && npm install
+    startCommand: cd src/api && npm start
+    plan: free
+    autoDeployTrigger: off
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DB_HOST
+        fromDatabase:
+          name: stathub-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: stathub-db
+          property: port
+      - key: DB_NAME
+        fromDatabase:
+          name: stathub-db
+          property: database
+      - key: DB_USER
+        fromDatabase:
+          name: stathub-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: stathub-db
+          property: password
+
+databases:
+  - name: stathub-db
+    databaseName: stathub
+    plan: free
