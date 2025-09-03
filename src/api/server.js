@@ -95,6 +95,7 @@ app.get('/api/nba/teams', async (req, res) => {
       assists,
       steals,
       blocks,
+      turnovers,
       minutes 
       FROM nbastage.player_data
       WHERE team_abbrev = $1
