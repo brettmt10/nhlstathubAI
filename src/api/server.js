@@ -53,7 +53,8 @@ app.get('/api/nhl/teams', async (req, res) => {
   try {
     const team = req.query.team;
 
-    const result = await pool.query(`
+    // Get players data
+    const playersResult = await pool.query(`
       SELECT
       player_name,
       position,
@@ -69,10 +70,18 @@ app.get('/api/nhl/teams', async (req, res) => {
       ORDER BY player_name 
     `, [team]);
 
+    // Get team full name
+    const teamInfoResult = await pool.query(`
+      SELECT team_name
+      FROM nhlraw.team_info
+      WHERE team_abbrev = $1
+    `, [team]);
+
     res.json({
       success: true,
-      count: result.rows.length,
-      players: result.rows
+      count: playersResult.rows.length,
+      players: playersResult.rows,
+      teamName: teamInfoResult.rows[0]?.team_name || team
     });
 
     } catch (error) {
@@ -85,7 +94,8 @@ app.get('/api/nba/teams', async (req, res) => {
   try {
     const team = req.query.team;
 
-    const result = await pool.query(`
+    // Get players data
+    const playersResult = await pool.query(`
       SELECT
       player_name,
       position,
@@ -95,16 +105,25 @@ app.get('/api/nba/teams', async (req, res) => {
       assists,
       steals,
       blocks,
+      turnovers,
       minutes 
       FROM nbastage.player_data
       WHERE team_abbrev = $1
       ORDER BY player_name 
     `, [team]);
 
+    // Get team full name
+    const teamInfoResult = await pool.query(`
+      SELECT team_name
+      FROM nbaraw.team_info
+      WHERE team_abbrev = $1
+    `, [team]);
+
     res.json({
       success: true,
-      count: result.rows.length,
-      players: result.rows
+      count: playersResult.rows.length,
+      players: playersResult.rows,
+      teamName: teamInfoResult.rows[0]?.team_name || team
     });
 
     } catch (error) {

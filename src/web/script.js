@@ -12,7 +12,7 @@ async function fetchTeamPlayers(teamAbbrev, league = 'nhl') {
     
     console.log(`Found ${data.count} players for this team`);
     
-    return data.players;
+    return data;
     
   } catch (error) {
     console.error('Failed to fetch team data:', error);
@@ -53,26 +53,26 @@ async function handleTeamSelection(teamAbbrev, league = 'nhl') {
     
     if (!playerDisplay) return; // don't do it if not on teams
     
-    const players = await fetchTeamPlayers(teamAbbrev, league);
+    const data = await fetchTeamPlayers(teamAbbrev, league);
     
-    if (players === null) {
+    if (data === null) {
         playerDisplay.innerHTML = '<p>Error loading team data. Please try again.</p>';
         return;
     }
     
     if (league === 'nhl') {
-        NHLDisplayPlayers(players, teamAbbrev);
+        NHLDisplayPlayers(data.players, teamAbbrev, data.teamName);
     } else {
-        NBADisplayPlayers(players, teamAbbrev);
+        NBADisplayPlayers(data.players, teamAbbrev, data.teamName);
     }
 }
 
-function NHLDisplayPlayers(players, team_abbrev) {
+function NHLDisplayPlayers(players, team_abbrev, teamName) {
     const playerDisplay = document.getElementById('player-display');
     
     let html = '<div class="team-header">';
     html += `<img src="static/nhl/${team_abbrev}_light.svg" class="team-logo">`;
-    html += `<h1>${team_abbrev}</h1>`;
+    html += `<h1>${teamName || team_abbrev}</h1>`;
     html += '</div>';
     html += '<div class="stats-container">';
     
@@ -112,14 +112,16 @@ function NHLDisplayPlayers(players, team_abbrev) {
     
     html += '</div>';
     playerDisplay.innerHTML = html;
+    
+    addTableSorting();
 }
 
-function NBADisplayPlayers(players, team_abbrev) {
+function NBADisplayPlayers(players, team_abbrev, teamName) {
     const playerDisplay = document.getElementById('player-display');
 
     let html = '<div class="team-header">';
     html += `<img src="static/nba/${team_abbrev}_light.svg" class="team-logo">`;
-    html += `<h1>${team_abbrev}</h1>`;
+    html += `<h1>${teamName || team_abbrev}</h1>`;
     html += '</div>';
     html += '<div class="stats-container">';
 
@@ -161,6 +163,8 @@ function NBADisplayPlayers(players, team_abbrev) {
     
     html += '</div>';
     playerDisplay.innerHTML = html;
+    
+    addTableSorting();
 }
 
 // load data when team param exists
@@ -173,3 +177,62 @@ document.addEventListener('DOMContentLoaded', function() {
         handleTeamSelection(teamAbbrev, league);
     }
 });
+
+function addTableSorting() {
+    const table = document.querySelector('.stats-table');
+    if (!table) return;
+    
+    const headers = table.querySelectorAll('th');
+    
+    headers.forEach((header, index) => {
+        header.addEventListener('click', () => {
+            const tbody = table.querySelector('tbody');
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+            
+            let currentSort = header.getAttribute('data-sort') || 'none';
+            
+            headers.forEach(h => {
+                h.classList.remove('asc', 'desc');
+                h.setAttribute('data-sort', 'none');
+            });
+            
+            let nextSort;
+            if (currentSort === 'none') {
+                nextSort = 'asc';
+            } else if (currentSort === 'asc') {
+                nextSort = 'desc';
+            } else {
+                nextSort = 'none';
+            }
+            
+            if (nextSort === 'none') {
+                return;
+            }
+            
+            // Apply sort class and data attribute
+            header.classList.add(nextSort);
+            header.setAttribute('data-sort', nextSort);
+            
+            // Sort rows
+            rows.sort((a, b) => {
+                const aValue = a.cells[index].textContent.trim();
+                const bValue = b.cells[index].textContent.trim();
+                
+                const aNum = parseFloat(aValue);
+                const bNum = parseFloat(bValue);
+                
+                let comparison;
+                if (!isNaN(aNum) && !isNaN(bNum)) {
+                    comparison = aNum - bNum;
+                } else {
+                    comparison = aValue.localeCompare(bValue);
+                }
+                
+                return nextSort === 'asc' ? comparison : -comparison;
+            });
+            
+            tbody.innerHTML = '';
+            rows.forEach(row => tbody.appendChild(row));
+        });
+    });
+}
