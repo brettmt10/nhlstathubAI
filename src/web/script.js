@@ -12,7 +12,7 @@ async function fetchTeamPlayers(teamAbbrev, league = 'nhl') {
     
     console.log(`Found ${data.count} players for this team`);
     
-    return data.players;
+    return data;
     
   } catch (error) {
     console.error('Failed to fetch team data:', error);
@@ -53,26 +53,26 @@ async function handleTeamSelection(teamAbbrev, league = 'nhl') {
     
     if (!playerDisplay) return; // don't do it if not on teams
     
-    const players = await fetchTeamPlayers(teamAbbrev, league);
+    const data = await fetchTeamPlayers(teamAbbrev, league);
     
-    if (players === null) {
+    if (data === null) {
         playerDisplay.innerHTML = '<p>Error loading team data. Please try again.</p>';
         return;
     }
     
     if (league === 'nhl') {
-        NHLDisplayPlayers(players, teamAbbrev);
+        NHLDisplayPlayers(data.players, teamAbbrev, data.teamName);
     } else {
-        NBADisplayPlayers(players, teamAbbrev);
+        NBADisplayPlayers(data.players, teamAbbrev, data.teamName);
     }
 }
 
-function NHLDisplayPlayers(players, team_abbrev) {
+function NHLDisplayPlayers(players, team_abbrev, teamName) {
     const playerDisplay = document.getElementById('player-display');
     
     let html = '<div class="team-header">';
     html += `<img src="static/nhl/${team_abbrev}_light.svg" class="team-logo">`;
-    html += `<h1>${team_abbrev}</h1>`;
+    html += `<h1>${teamName || team_abbrev}</h1>`;
     html += '</div>';
     html += '<div class="stats-container">';
     
@@ -114,12 +114,12 @@ function NHLDisplayPlayers(players, team_abbrev) {
     playerDisplay.innerHTML = html;
 }
 
-function NBADisplayPlayers(players, team_abbrev) {
+function NBADisplayPlayers(players, team_abbrev, teamName) {
     const playerDisplay = document.getElementById('player-display');
 
     let html = '<div class="team-header">';
     html += `<img src="static/nba/${team_abbrev}_light.svg" class="team-logo">`;
-    html += `<h1>${team_abbrev}</h1>`;
+    html += `<h1>${teamName || team_abbrev}</h1>`;
     html += '</div>';
     html += '<div class="stats-container">';
 
