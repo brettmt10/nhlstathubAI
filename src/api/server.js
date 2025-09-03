@@ -4,7 +4,7 @@ const path = require('path');
 const app = express();
 const cors = require('cors')
 const { Pool } = require('pg');
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 10000;
 // Load environment variables - only in development
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config({ path: '../../.env' });
