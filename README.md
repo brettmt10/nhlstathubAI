@@ -1,4 +1,4 @@
-# [StatHub AI](https://stathubai.onrender.com/team?team=BOS&league=nhl)
+https://stathubai.onrender.com
 ### A sports data visualization tool with an AI chatbot integration.
 
 [Check out the release notes! Big Upgrades!](https://github.com/brettmt10/stathubAI/releases/tag/v2)
