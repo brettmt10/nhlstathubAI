@@ -1,6 +1,6 @@
 async function fetchTeamPlayers(teamAbbrev, league = 'nhl') {
   try {
-    const url = `http://localhost:3000/api/${league}/teams?team=${teamAbbrev}`;
+    const url = `https://stathubai.onrender.com/api/${league}/teams?team=${teamAbbrev}`;
     
     const response = await fetch(url);
     
