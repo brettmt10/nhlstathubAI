@@ -112,6 +112,8 @@ function NHLDisplayPlayers(players, team_abbrev, teamName) {
     
     html += '</div>';
     playerDisplay.innerHTML = html;
+    
+    addTableSorting();
 }
 
 function NBADisplayPlayers(players, team_abbrev, teamName) {
@@ -161,6 +163,8 @@ function NBADisplayPlayers(players, team_abbrev, teamName) {
     
     html += '</div>';
     playerDisplay.innerHTML = html;
+    
+    addTableSorting();
 }
 
 // load data when team param exists
@@ -173,3 +177,62 @@ document.addEventListener('DOMContentLoaded', function() {
         handleTeamSelection(teamAbbrev, league);
     }
 });
+
+function addTableSorting() {
+    const table = document.querySelector('.stats-table');
+    if (!table) return;
+    
+    const headers = table.querySelectorAll('th');
+    
+    headers.forEach((header, index) => {
+        header.addEventListener('click', () => {
+            const tbody = table.querySelector('tbody');
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+            
+            let currentSort = header.getAttribute('data-sort') || 'none';
+            
+            headers.forEach(h => {
+                h.classList.remove('asc', 'desc');
+                h.setAttribute('data-sort', 'none');
+            });
+            
+            let nextSort;
+            if (currentSort === 'none') {
+                nextSort = 'asc';
+            } else if (currentSort === 'asc') {
+                nextSort = 'desc';
+            } else {
+                nextSort = 'none';
+            }
+            
+            if (nextSort === 'none') {
+                return;
+            }
+            
+            // Apply sort class and data attribute
+            header.classList.add(nextSort);
+            header.setAttribute('data-sort', nextSort);
+            
+            // Sort rows
+            rows.sort((a, b) => {
+                const aValue = a.cells[index].textContent.trim();
+                const bValue = b.cells[index].textContent.trim();
+                
+                const aNum = parseFloat(aValue);
+                const bNum = parseFloat(bValue);
+                
+                let comparison;
+                if (!isNaN(aNum) && !isNaN(bNum)) {
+                    comparison = aNum - bNum;
+                } else {
+                    comparison = aValue.localeCompare(bValue);
+                }
+                
+                return nextSort === 'asc' ? comparison : -comparison;
+            });
+            
+            tbody.innerHTML = '';
+            rows.forEach(row => tbody.appendChild(row));
+        });
+    });
+}
